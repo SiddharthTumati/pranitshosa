@@ -3,7 +3,8 @@ import { SignupForm } from "./SignupForm";
 import { Logo } from "@/components/Logo";
 
 export default function SignupPage() {
-  const chapterName = process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "HOSA Chapter";
+  const chapterName =
+    process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "Marvin Ridge High School HOSA";
 
   return (
     <div className="flex-1 flex items-center justify-center px-4 py-12">

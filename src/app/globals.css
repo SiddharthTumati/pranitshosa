@@ -3,13 +3,14 @@
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  --color-brand-navy: #1e3a8a;
-  --color-brand-navy-dark: #17307a;
-  --color-brand-orange: #f97316;
-  --color-brand-orange-soft: #ffe4cc;
-  --color-brand-orange-pill: #fdba74;
-  --color-brand-canvas: #f8fafc;
-  --color-brand-ink: #0f172a;
+  /* Marvin Ridge High School (Mavericks) — royal blue + orange */
+  --color-brand-navy: #0044ad;
+  --color-brand-navy-dark: #00358a;
+  --color-brand-orange: #f79239;
+  --color-brand-orange-soft: #fff0e8;
+  --color-brand-orange-pill: #ffd4a8;
+  --color-brand-canvas: #f4f7fb;
+  --color-brand-ink: #0a0f1a;
 }
 
 :root {
@@ -32,7 +33,7 @@ body {
   background-color: var(--color-brand-canvas);
   background-image: radial-gradient(
     circle at 1px 1px,
-    rgba(15, 23, 42, 0.08) 1px,
+    rgba(0, 68, 173, 0.07) 1px,
     transparent 0
   );
   background-size: 22px 22px;
@@ -74,7 +75,7 @@ button, a[role="button"] {
 .form-input:focus {
   outline: none;
   border-color: var(--color-brand-navy);
-  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 68, 173, 0.18);
 }
 
 /* Utility: shiny card */

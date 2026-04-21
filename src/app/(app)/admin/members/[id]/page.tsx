@@ -28,7 +28,8 @@ export default async function MemberDetailPage({
     .eq("user_id", id)
     .order("event_date", { ascending: true });
 
-  const chapterName = process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "HOSA Chapter";
+  const chapterName =
+    process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "Marvin Ridge High School HOSA";
   const officerEmail = process.env.NEXT_PUBLIC_COMMUNITY_SERVICE_EMAIL;
 
   return (

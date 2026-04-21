@@ -21,12 +21,12 @@ export const CATEGORIES: Category[] = [
 export const SEMESTERS: Semester[] = ["fall", "spring"];
 
 export const CATEGORY_COLORS: Record<Category, string> = {
-  "Blood Drive": "bg-orange-300 text-orange-950",
-  Speaker: "bg-orange-300 text-orange-950",
-  Community: "bg-orange-300 text-orange-950",
-  Social: "bg-orange-300 text-orange-950",
-  "Health Ed.": "bg-orange-300 text-orange-950",
-  Other: "bg-orange-200 text-orange-950",
+  "Blood Drive": "bg-brand-orange-pill text-brand-ink",
+  Speaker: "bg-brand-orange-pill text-brand-ink",
+  Community: "bg-brand-orange-pill text-brand-ink",
+  Social: "bg-brand-orange-pill text-brand-ink",
+  "Health Ed.": "bg-brand-orange-pill text-brand-ink",
+  Other: "bg-brand-orange-soft text-brand-ink border border-brand-navy/15",
 };
 
 export type Profile = {

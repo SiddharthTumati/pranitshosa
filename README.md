@@ -5,7 +5,8 @@ events in real time. Students submit events (with photo proof) → officers
 approve them → hours roll up automatically into a printable tracker.
 
 Built with **Next.js 16 (App Router) + TypeScript + Tailwind CSS v4 + Supabase**
-(Postgres, Auth, Storage).
+(Postgres, Auth, Storage). Default UI colors follow **Marvin Ridge Mavericks**
+royal blue and orange.
 
 ## Features
 
@@ -125,7 +126,7 @@ See [`.env.local.example`](.env.local.example).
 | --- | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | yes | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes | Supabase anon/public API key |
-| `NEXT_PUBLIC_CHAPTER_NAME` | no | Displayed in header (default: "HOSA Chapter") |
+| `NEXT_PUBLIC_CHAPTER_NAME` | no | Displayed in header (default: "Marvin Ridge High School HOSA") |
 | `NEXT_PUBLIC_YEAR_LABEL` | no | e.g. `2025-2026` |
 | `NEXT_PUBLIC_COMMUNITY_SERVICE_EMAIL` | no | Shown in the tracker footer |
 

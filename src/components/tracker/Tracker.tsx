@@ -33,7 +33,7 @@ function Pill({
   className?: string;
 }) {
   const tones = {
-    orange: "bg-brand-orange-pill text-orange-950",
+    orange: "bg-brand-orange-pill text-brand-ink",
     slate: "bg-slate-200 text-slate-800",
     amber: "bg-amber-100 text-amber-900 border border-amber-300",
     red: "bg-red-100 text-red-900 border border-red-300",
@@ -404,11 +404,11 @@ function SemesterCard({
   officerMet: boolean;
 }) {
   return (
-    <div className="rounded-xl bg-brand-orange-soft px-5 py-4 border border-orange-200">
-      <p className="text-[11px] font-bold uppercase tracking-wider text-orange-900/70">
+    <div className="rounded-xl bg-brand-orange-soft px-5 py-4 border border-brand-navy/12">
+      <p className="text-[11px] font-bold uppercase tracking-wider text-brand-navy/75">
         {title}
       </p>
-      <p className="mt-1 text-3xl font-bold text-orange-700">
+      <p className="mt-1 text-3xl font-bold text-brand-navy">
         ~{formatNum(hours)} hrs
       </p>
       <div className="mt-2.5 flex flex-wrap gap-2">
