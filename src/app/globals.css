@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
+/* Class-based dark mode (ThemeProvider toggles `dark` on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  --font-sans: var(--font-app), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
   /* Marvin Ridge High School (Mavericks) — royal blue + orange */
   --color-brand-navy: #0044ad;
@@ -15,6 +18,10 @@
 
 :root {
   color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 html, body {
@@ -45,6 +52,16 @@ body {
   overscroll-behavior-y: contain;
 }
 
+.dark body {
+  color: #e8ecf4;
+  background-color: #0b1220;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(247, 146, 57, 0.09) 1px,
+    transparent 0
+  );
+}
+
 /* Inputs don't trigger iOS zoom when font-size >= 16px */
 input, select, textarea {
   font-size: 16px;
@@ -60,6 +77,10 @@ button, a[role="button"] {
   outline: 2px solid var(--color-brand-navy);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+.dark :focus-visible {
+  outline-color: var(--color-brand-orange);
 }
 
 /* Form inputs — 16px font prevents iOS focus zoom */
@@ -78,6 +99,18 @@ button, a[role="button"] {
   box-shadow: 0 0 0 3px rgba(0, 68, 173, 0.18);
 }
 
+.dark .form-input {
+  border-color: rgb(71 85 105);
+  background-color: rgb(15 23 42 / 0.85);
+  color: #e8ecf4;
+  box-shadow: none;
+}
+
+.dark .form-input:focus {
+  border-color: var(--color-brand-orange);
+  box-shadow: 0 0 0 3px rgba(247, 146, 57, 0.22);
+}
+
 /* Utility: shiny card */
 .tracker-card {
   background: white;
@@ -86,6 +119,14 @@ button, a[role="button"] {
     0 1px 2px rgba(15, 23, 42, 0.06),
     0 8px 24px -12px rgba(15, 23, 42, 0.12);
   border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.dark .tracker-card {
+  background: rgb(15 23 42 / 0.72);
+  border-color: rgb(51 65 85 / 0.55);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 8px 28px -14px rgba(0, 0, 0, 0.45);
 }
 
 /* Print styles — for PDF export */

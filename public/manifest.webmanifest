@@ -1,7 +1,7 @@
 {
   "name": "HOSA Service Tracker",
   "short_name": "HOSA Tracker",
-  "description": "Track your HOSA chapter service hours, events, and requirements in real time.",
+  "description": "MRHS HOSA — log service events and hours.",
   "start_url": "/dashboard",
   "scope": "/",
   "display": "standalone",

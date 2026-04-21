@@ -81,32 +81,6 @@ function Check({ met }: { met: boolean }) {
   );
 }
 
-function GoalItem({ label, met }: { label: string; met: boolean }) {
-  return (
-    <div className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-200 last:border-b-0 md:border-b-0">
-      <div
-        className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 ${
-          met ? "bg-emerald-500 text-white" : "bg-slate-200 text-slate-400"
-        }`}
-      >
-        {met ? (
-          <svg viewBox="0 0 24 24" className="w-4 h-4">
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 12.5l4.5 4.5L19 7"
-            />
-          </svg>
-        ) : null}
-      </div>
-      <span className="text-sm text-slate-700">{label}</span>
-    </div>
-  );
-}
-
 export function Tracker({
   profile,
   events,
@@ -142,9 +116,8 @@ export function Tracker({
     <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-10">
       <div className="tracker-card print-surface p-4 sm:p-8">
         {/* Navy header */}
-        <div className="relative rounded-2xl bg-brand-navy text-white p-5 sm:p-7 overflow-hidden ring-2 ring-brand-orange/35">
-          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-orange via-white/90 to-brand-orange opacity-90" />
-          <div className="flex items-start justify-between gap-6 pt-1">
+        <div className="relative rounded-2xl bg-brand-navy text-white p-5 sm:p-7 overflow-hidden border border-white/15">
+          <div className="flex items-start justify-between gap-6">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <span className="inline-flex rounded-md bg-brand-orange px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-sm ring-1 ring-white/30">
@@ -159,15 +132,15 @@ export function Tracker({
                 <span className="text-brand-orange font-extrabold"> {chapterHosa}</span>
               </p>
               <h1 className="mt-3 text-2xl sm:text-3xl font-bold leading-tight truncate">
-                {profile.full_name || "Student Name"}
+                {profile.full_name?.trim() || "Insert Name Here"}
               </h1>
               <p className="mt-1 text-sm text-white/80">
                 {profile.grade ? `${ordinal(profile.grade)} Grade · ` : ""}
                 {isOfficer ? "Officer" : "Member"} · {yearLabel}
               </p>
             </div>
-            <div className="hidden sm:flex w-16 h-16 rounded-full bg-white items-center justify-center shrink-0 shadow-md">
-              <Logo className="w-10 h-10" />
+            <div className="hidden sm:inline-flex h-[3.75rem] items-center justify-center rounded-2xl bg-white shrink-0 px-3 py-2 shadow-[0_4px_14px_-2px_rgba(0,0,0,0.12)] ring-1 ring-slate-900/[0.05]">
+              <Logo className="h-12" variant="onLight" />
             </div>
           </div>
         </div>
@@ -205,7 +178,7 @@ export function Tracker({
 
         {/* Event Log */}
         <SectionLabel>Event Log</SectionLabel>
-        <div className="rounded-xl overflow-x-auto border border-slate-200 -mx-1 sm:mx-0">
+        <div className="rounded-xl overflow-x-auto border border-slate-200 dark:border-slate-600 -mx-1 sm:mx-0">
           <table className="w-full text-sm min-w-[520px]">
             <thead>
               <tr className="bg-brand-navy text-white">
@@ -225,7 +198,10 @@ export function Tracker({
             <tbody>
               {events.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
+                  <td
+                    colSpan={5}
+                    className="px-4 py-8 text-center text-slate-500 dark:text-slate-400"
+                  >
                     No events yet.{" "}
                     {!viewingOther && (
                       <Link
@@ -242,12 +218,14 @@ export function Tracker({
                 <tr
                   key={evt.id}
                   className={
-                    idx % 2 === 0 ? "bg-white" : "bg-slate-50/70"
+                    idx % 2 === 0
+                      ? "bg-white dark:bg-slate-900/40"
+                      : "bg-slate-50/70 dark:bg-slate-800/35"
                   }
                 >
                   <td className="px-4 py-3 align-middle">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-slate-800">
+                      <span className="font-medium text-slate-800 dark:text-slate-100">
                         {evt.name}
                       </span>
                       {evt.status === "pending" && (
@@ -281,14 +259,14 @@ export function Tracker({
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-slate-500 mt-0.5">
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                       {formatDate(evt.event_date)}
                     </div>
                   </td>
-                  <td className="px-4 py-3 align-middle capitalize hidden sm:table-cell text-slate-700">
+                  <td className="px-4 py-3 align-middle capitalize hidden sm:table-cell text-slate-700 dark:text-slate-300">
                     {evt.semester}
                   </td>
-                  <td className="px-4 py-3 align-middle text-slate-700">
+                  <td className="px-4 py-3 align-middle text-slate-700 dark:text-slate-300">
                     {formatHours(Number(evt.hours))}
                   </td>
                   <td className="px-4 py-3 align-middle">
@@ -321,11 +299,11 @@ export function Tracker({
         </div>
 
         {(pending.length > 0 || rejected.length > 0) && !printMode && (
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
             {pending.length > 0 && (
               <>
-                {pending.length} pending event{pending.length === 1 ? "" : "s"}{" "}
-                — hours count once approved by an officer.
+                {pending.length} pending — not in your hour total until
+                approved.
               </>
             )}
             {rejected.length > 0 && (
@@ -337,31 +315,15 @@ export function Tracker({
           </p>
         )}
 
-        {/* Goals checklist */}
-        <SectionLabel>Goals Checklist</SectionLabel>
-        <div className="rounded-xl border border-slate-200 overflow-hidden">
-          <div className="grid md:grid-cols-2">
-            <GoalItem
-              label={`Fall HOSA minimum (${HOSA_MINIMUM_HOURS} hrs)`}
-              met={fallMemberMet}
-            />
-            <GoalItem
-              label={`Spring HOSA minimum (${HOSA_MINIMUM_HOURS} hrs)`}
-              met={springMemberMet}
-            />
-            <GoalItem
-              label={`Fall officer threshold (${OFFICER_MINIMUM_HOURS} hrs)`}
-              met={fallOfficerMet}
-            />
-            <GoalItem
-              label={`Spring officer threshold (${OFFICER_MINIMUM_HOURS} hrs)`}
-              met={springOfficerMet}
-            />
+        <SectionLabel>HOSA</SectionLabel>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-600 bg-slate-50/90 dark:bg-slate-800/50 px-6 py-8 sm:py-10 flex flex-col items-center text-center">
+          <div className="rounded-2xl bg-white dark:bg-slate-950 px-7 py-6 sm:px-8 sm:py-7 border border-slate-200/80 dark:border-slate-600 shadow-[0_4px_24px_-8px_rgba(15,23,42,0.12)] dark:shadow-[0_4px_24px_-8px_rgba(0,0,0,0.4)]">
+            <Logo className="w-full max-w-[min(100%,20rem)]" variant="onLight" />
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-8 pt-5 border-t border-dashed border-slate-300 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-brand-orange">
+        <div className="mt-8 pt-5 border-t border-dashed border-slate-300 dark:border-slate-600 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-brand-orange">
           <span>
             {chapterName} · {yearLabel} Service Tracker
           </span>
@@ -377,7 +339,7 @@ export function Tracker({
                 </a>
               </>
             ) : (
-              <>Questions? Email the Community Service Director</>
+              <>Ask a chapter officer if something looks wrong.</>
             )}
           </span>
         </div>
@@ -394,11 +356,11 @@ function StatCard({
   value: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-3 sm:px-4 flex flex-col items-center text-center">
-      <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-navy leading-tight">
+    <div className="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50/80 dark:bg-slate-800/80 px-3 py-3 sm:px-4 flex flex-col items-center text-center">
+      <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-navy dark:text-slate-200 leading-tight">
         {label}
       </p>
-      <div className="mt-1.5 text-2xl sm:text-3xl font-bold text-brand-navy min-h-[2rem] sm:min-h-[2.25rem] flex items-center">
+      <div className="mt-1.5 text-2xl sm:text-3xl font-bold text-brand-navy dark:text-white min-h-[2rem] sm:min-h-[2.25rem] flex items-center">
         {value}
       </div>
     </div>
@@ -417,11 +379,11 @@ function SemesterCard({
   officerMet: boolean;
 }) {
   return (
-    <div className="rounded-xl bg-brand-orange-soft px-5 py-4 border border-brand-navy/12">
-      <p className="text-[11px] font-bold uppercase tracking-wider text-brand-navy/75">
+    <div className="rounded-xl bg-brand-orange-soft dark:bg-slate-800/90 dark:border-slate-600 px-5 py-4 border border-brand-navy/12">
+      <p className="text-[11px] font-bold uppercase tracking-wider text-brand-navy/75 dark:text-slate-300">
         {title}
       </p>
-      <p className="mt-1 text-3xl font-bold text-brand-navy">
+      <p className="mt-1 text-3xl font-bold text-brand-navy dark:text-white">
         ~{formatNum(hours)} hrs
       </p>
       <div className="mt-2.5 flex flex-wrap gap-2">
@@ -440,7 +402,7 @@ function SemesterCard({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="mt-7 mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-700">
+    <h2 className="mt-7 mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-700 dark:text-slate-400">
       {children}
     </h2>
   );

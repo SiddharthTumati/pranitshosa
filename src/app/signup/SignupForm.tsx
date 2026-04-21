@@ -53,11 +53,11 @@ export function SignupForm() {
 
   if (success) {
     return (
-      <div className="rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 px-4 py-3 text-sm">
+      <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-100 px-4 py-3 text-sm">
         <p className="font-semibold">Check your email.</p>
         <p className="mt-1">
-          We sent a confirmation link to <strong>{email}</strong>. Click it,
-          then come back and sign in.
+          Confirmation link went to <strong>{email}</strong>. Open it, then
+          sign in here.
         </p>
       </div>
     );
@@ -66,7 +66,7 @@ export function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Full name
         </label>
         <input
@@ -74,20 +74,20 @@ export function SignupForm() {
           required
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy focus:ring-0"
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 dark:text-slate-100 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy dark:focus:border-brand-orange focus:ring-0"
           autoComplete="name"
-          placeholder="Jane Student"
+          placeholder="First Last"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Grade
         </label>
         <select
           value={grade}
           onChange={(e) => setGrade(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy focus:ring-0 bg-white"
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy dark:focus:border-brand-orange focus:ring-0 bg-white dark:bg-slate-800/80 dark:text-slate-100"
         >
           <option value="9">9th Grade</option>
           <option value="10">10th Grade</option>
@@ -97,7 +97,7 @@ export function SignupForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Email
         </label>
         <input
@@ -105,13 +105,13 @@ export function SignupForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy focus:ring-0"
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 dark:text-slate-100 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy dark:focus:border-brand-orange focus:ring-0"
           autoComplete="email"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
           Password
         </label>
         <input
@@ -120,16 +120,16 @@ export function SignupForm() {
           minLength={6}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy focus:ring-0"
+          className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 dark:text-slate-100 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy dark:focus:border-brand-orange focus:ring-0"
           autoComplete="new-password"
         />
-        <p className="text-xs text-slate-500 mt-1">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
           Minimum 6 characters.
         </p>
       </div>
 
       {error && (
-        <div className="rounded-lg bg-red-50 border border-red-200 text-red-800 px-3 py-2 text-sm">
+        <div className="rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-3 py-2 text-sm">
           {error}
         </div>
       )}
@@ -137,7 +137,7 @@ export function SignupForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-brand-navy text-white font-bold py-3 shadow-md border-b-4 border-brand-orange hover:bg-brand-navy-dark active:translate-y-px active:border-b-2 transition-all disabled:opacity-60"
+        className="w-full rounded-lg bg-brand-navy text-white font-bold py-3 shadow-md hover:bg-brand-navy-dark active:scale-[0.99] transition disabled:opacity-60"
       >
         {loading ? "Creating account…" : "Create account"}
       </button>

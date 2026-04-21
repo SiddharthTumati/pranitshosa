@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { appFont } from "./fonts";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "HOSA Service Tracker",
-  description:
-    "Track your HOSA chapter service hours, events, and requirements in real time.",
+  description: "MRHS HOSA — log service events and hours.",
   manifest: "/manifest.webmanifest",
   applicationName: "HOSA Tracker",
   appleWebApp: {
@@ -33,8 +27,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${appFont.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

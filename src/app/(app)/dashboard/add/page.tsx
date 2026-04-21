@@ -14,8 +14,8 @@ export default function AddEventPage() {
       </div>
       <div className="tracker-card p-6 sm:p-8">
         <h1 className="text-2xl font-bold text-brand-navy">Log a new event</h1>
-        <p className="text-sm text-slate-600 mt-1">
-          Fill in the details and attach a photo. Your entry will be marked{" "}
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          Add what you did. Photo optional. It shows as{" "}
           <span className="font-semibold">pending</span> until an officer
           approves it.
         </p>

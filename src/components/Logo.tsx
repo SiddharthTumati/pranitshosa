@@ -1,40 +1,38 @@
-export function Logo({ className = "" }: { className?: string }) {
+import Image from "next/image";
+
+/**
+ * Official HOSA horizontal mark (`/hosa-official-logo.png`).
+ * `onNavy`: padded white plate for MRHS blue tiles.
+ * `onLight`: framed for white / light panels (asset includes white).
+ */
+type LogoVariant = "onNavy" | "onLight";
+
+export function Logo({
+  className = "",
+  variant = "onLight",
+}: {
+  className?: string;
+  variant?: LogoVariant;
+}) {
+  const frame =
+    variant === "onNavy"
+      ? "rounded-lg bg-white p-[5px] shadow-[0_2px_8px_rgba(0,0,0,0.12)] ring-1 ring-slate-900/[0.06]"
+      : "rounded-xl overflow-hidden ring-1 ring-slate-900/[0.05] dark:ring-white/[0.07]";
+
+  const imgClass = "object-contain object-center";
+
   return (
-    <svg
-      viewBox="0 0 64 64"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden
+    <span
+      className={`relative inline-block shrink-0 overflow-hidden ${frame} aspect-[568/362] ${className}`.trim()}
     >
-      <rect x="14" y="10" width="36" height="48" rx="6" fill="#fff" />
-      <rect x="22" y="6" width="20" height="8" rx="3" fill="var(--color-brand-navy)" />
-      <circle cx="24" cy="24" r="2.4" fill="var(--color-brand-navy)" />
-      <circle cx="24" cy="34" r="2.4" fill="var(--color-brand-navy)" />
-      <circle cx="24" cy="44" r="2.4" fill="var(--color-brand-navy)" />
-      <path
-        d="M30 22.5l3 3 6-6"
-        stroke="var(--color-brand-orange)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
+      <Image
+        src="/hosa-official-logo.png"
+        alt="HOSA — Future Health Professionals"
+        fill
+        quality={92}
+        className={imgClass}
+        sizes="(max-width: 640px) 92vw, 360px"
       />
-      <path
-        d="M30 32.5l3 3 6-6"
-        stroke="var(--color-brand-orange)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-      <path
-        d="M30 42.5l3 3 6-6"
-        stroke="var(--color-brand-orange)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
+    </span>
   );
 }

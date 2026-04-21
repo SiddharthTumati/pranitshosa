@@ -37,7 +37,7 @@ export function MobileMenu({
       <button
         onClick={() => setOpen(true)}
         aria-label="Open menu"
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full text-slate-700 hover:bg-slate-100 active:scale-95 transition"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-full text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition"
       >
         <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden>
           <path
@@ -56,21 +56,21 @@ export function MobileMenu({
           onClick={() => setOpen(false)}
         >
           <div
-            className="absolute right-0 top-0 bottom-0 w-72 max-w-[85vw] bg-white shadow-xl flex flex-col"
+            className="absolute right-0 top-0 bottom-0 w-72 max-w-[85vw] bg-white dark:bg-slate-900 shadow-xl flex flex-col border-l border-slate-200 dark:border-slate-700"
             onClick={(e) => e.stopPropagation()}
             style={{
               paddingTop: "env(safe-area-inset-top)",
               paddingBottom: "env(safe-area-inset-bottom)",
             }}
           >
-            <div className="flex items-center justify-between px-4 h-14 border-b border-slate-200">
-              <p className="font-semibold text-slate-800 truncate">
+            <div className="flex items-center justify-between px-4 h-14 border-b border-slate-200 dark:border-slate-700">
+              <p className="font-semibold text-slate-800 dark:text-slate-100 truncate">
                 {fullName}
               </p>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"
-                className="w-9 h-9 rounded-full hover:bg-slate-100 flex items-center justify-center"
+                className="w-9 h-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200"
               >
                 <svg viewBox="0 0 24 24" className="w-5 h-5">
                   <path
@@ -96,7 +96,7 @@ export function MobileMenu({
               </MenuLink>
               {isAdmin && (
                 <>
-                  <div className="mt-3 mb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="mt-3 mb-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     Admin
                   </div>
                   <MenuLink href="/admin" onClick={() => setOpen(false)}>
@@ -115,10 +115,13 @@ export function MobileMenu({
               )}
             </nav>
 
-            <form action={signOutAction} className="p-3 border-t border-slate-200">
+            <form
+              action={signOutAction}
+              className="p-3 border-t border-slate-200 dark:border-slate-700"
+            >
               <button
                 type="submit"
-                className="w-full px-4 py-3 rounded-lg bg-slate-100 text-slate-700 font-semibold text-sm hover:bg-slate-200"
+                className="w-full px-4 py-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm hover:bg-slate-200 dark:hover:bg-slate-700"
               >
                 Sign out
               </button>
@@ -143,7 +146,7 @@ function MenuLink({
     <Link
       href={href}
       onClick={onClick}
-      className="px-3 py-3 rounded-lg text-sm font-medium text-slate-800 hover:bg-slate-100 active:bg-slate-200"
+      className="px-3 py-3 rounded-lg text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700"
     >
       {children}
     </Link>
