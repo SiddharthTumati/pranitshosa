@@ -34,6 +34,11 @@ Built with **Next.js 16 (App Router) + TypeScript + Tailwind CSS v4 + Supabase**
    [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql)
    and run it. That creates all tables, policies, storage bucket, and
    the `handle_new_user` trigger.
+
+   If you already ran an older version of `0001_init.sql` and users can sign in
+   but get stuck on **“Setting up your profile…”**, also run
+   [`supabase/migrations/0002_profile_bootstrap.sql`](supabase/migrations/0002_profile_bootstrap.sql)
+   once in the SQL editor.
 3. Still in the SQL editor, add your officer emails to the admin list:
 
    ```sql

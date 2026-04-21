@@ -83,6 +83,17 @@ returns boolean as $$
   select coalesce((select is_admin from public.profiles where id = uid), false);
 $$ language sql security definer stable;
 
+-- SECURITY DEFINER: check admin_emails without exposing the table via RLS
+create or replace function public.email_is_admin(p_email text)
+returns boolean as $$
+  select exists(
+    select 1 from public.admin_emails
+    where lower(email) = lower(p_email)
+  );
+$$ language sql stable security definer;
+
+grant execute on function public.email_is_admin(text) to anon, authenticated, service_role;
+
 -- New-user handler: create profile and mark admin if email is pre-listed
 create or replace function public.handle_new_user()
 returns trigger as $$
@@ -91,7 +102,7 @@ begin
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'full_name', ''),
-    exists(select 1 from public.admin_emails where lower(email) = lower(new.email))
+    public.email_is_admin(new.email)
   )
   on conflict (id) do nothing;
   return new;
@@ -129,6 +140,13 @@ alter table public.admin_emails enable row level security;
 drop policy if exists "profiles_read_all" on public.profiles;
 create policy "profiles_read_all" on public.profiles
   for select using (auth.uid() is not null);
+
+drop policy if exists "profiles_insert_own" on public.profiles;
+create policy "profiles_insert_own" on public.profiles
+  for insert with check (
+    auth.uid() = id
+    and is_admin = public.email_is_admin(auth.jwt() ->> 'email')
+  );
 
 drop policy if exists "profiles_update_own" on public.profiles;
 create policy "profiles_update_own" on public.profiles
