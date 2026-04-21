@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { parseChapterMrhsHosa } from "@/lib/mrhsBranding";
 import type { EventRow, Profile } from "@/lib/types";
 import {
   HOSA_MINIMUM_HOURS,
@@ -134,16 +135,28 @@ export function Tracker({
 
   const yearLabel = profile.year_label || "2025–2026";
   const eventCount = approved.length;
+  const { school: chapterSchool, hosa: chapterHosa } =
+    parseChapterMrhsHosa(chapterName);
 
   return (
     <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-10">
       <div className="tracker-card print-surface p-4 sm:p-8">
         {/* Navy header */}
-        <div className="relative rounded-2xl bg-brand-navy text-white p-5 sm:p-7 overflow-hidden">
-          <div className="flex items-start justify-between gap-6">
+        <div className="relative rounded-2xl bg-brand-navy text-white p-5 sm:p-7 overflow-hidden ring-2 ring-brand-orange/35">
+          <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-orange via-white/90 to-brand-orange opacity-90" />
+          <div className="flex items-start justify-between gap-6 pt-1">
             <div className="min-w-0">
-              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/80">
-                {chapterName} · Service Tracker
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="inline-flex rounded-md bg-brand-orange px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-sm ring-1 ring-white/30">
+                  MRHS HOSA
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/80">
+                  Mavericks · Service tracker
+                </span>
+              </div>
+              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-white/90">
+                <span className="text-white">{chapterSchool}</span>
+                <span className="text-brand-orange font-extrabold"> {chapterHosa}</span>
               </p>
               <h1 className="mt-3 text-2xl sm:text-3xl font-bold leading-tight truncate">
                 {profile.full_name || "Student Name"}

@@ -137,7 +137,7 @@ export function SignupForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-brand-navy text-white font-semibold py-2.5 hover:bg-brand-navy-dark transition-colors disabled:opacity-60"
+        className="w-full rounded-lg bg-brand-navy text-white font-bold py-3 shadow-md border-b-4 border-brand-orange hover:bg-brand-navy-dark active:translate-y-px active:border-b-2 transition-all disabled:opacity-60"
       >
         {loading ? "Creating account…" : "Create account"}
       </button>
