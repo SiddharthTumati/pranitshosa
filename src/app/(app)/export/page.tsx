@@ -55,7 +55,10 @@ export default async function ExportPage({
   return (
     <>
       <div className="no-print max-w-5xl mx-auto px-4 sm:px-6 pt-6 flex items-center justify-between flex-wrap gap-3">
-        <Link href="/dashboard" className="text-sm text-brand-navy hover:underline">
+        <Link
+          href="/dashboard"
+          className="text-sm text-brand-navy dark:text-brand-orange hover:underline"
+        >
           ← Back to dashboard
         </Link>
         <div className="flex gap-2">

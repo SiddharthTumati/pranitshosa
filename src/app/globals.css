@@ -12,16 +12,33 @@
   --color-brand-orange: #f79239;
   --color-brand-orange-soft: #fff0e8;
   --color-brand-orange-pill: #ffd4a8;
-  --color-brand-canvas: #f4f7fb;
-  --color-brand-ink: #0a0f1a;
+  --color-brand-canvas: #f7f7f8;
+  --color-brand-ink: #0b0f17;
 }
 
 :root {
   color-scheme: light;
+  /* Surface system (editorial, border-led) */
+  --surface-0: #f7f7f8; /* page */
+  --surface-1: #ffffff; /* panels */
+  --surface-2: #fbfbfc; /* subtle inset */
+  --border-1: rgba(15, 23, 42, 0.12);
+  --border-2: rgba(15, 23, 42, 0.08);
+  --muted: rgba(15, 23, 42, 0.62);
+  --muted-2: rgba(15, 23, 42, 0.46);
+  --radius: 12px;
+  --radius-sm: 10px;
 }
 
 .dark {
   color-scheme: dark;
+  --surface-0: #0b1220;
+  --surface-1: #0f1a2e;
+  --surface-2: #0c1628;
+  --border-1: rgba(226, 232, 240, 0.18);
+  --border-2: rgba(226, 232, 240, 0.12);
+  --muted: rgba(226, 232, 240, 0.74);
+  --muted-2: rgba(226, 232, 240, 0.56);
 }
 
 html, body {
@@ -37,14 +54,7 @@ html {
 body {
   color: var(--color-brand-ink);
   font-family: var(--font-sans);
-  background-color: var(--color-brand-canvas);
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgba(0, 68, 173, 0.07) 1px,
-    transparent 0
-  );
-  background-size: 22px 22px;
-  background-position: -1px -1px;
+  background-color: var(--surface-0);
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
@@ -54,12 +64,7 @@ body {
 
 .dark body {
   color: #e8ecf4;
-  background-color: #0b1220;
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgba(247, 146, 57, 0.09) 1px,
-    transparent 0
-  );
+  background-color: var(--surface-0);
 }
 
 /* Inputs don't trigger iOS zoom when font-size >= 16px */
@@ -86,47 +91,43 @@ button, a[role="button"] {
 /* Form inputs — 16px font prevents iOS focus zoom */
 .form-input {
   width: 100%;
-  border-radius: 0.5rem;
-  border: 1px solid rgb(203, 213, 225);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-1);
   padding: 0.75rem 0.875rem;
   font-size: 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-  background-color: white;
+  box-shadow: none;
+  background-color: var(--surface-1);
 }
 .form-input:focus {
   outline: none;
   border-color: var(--color-brand-navy);
-  box-shadow: 0 0 0 3px rgba(0, 68, 173, 0.18);
+  box-shadow: none;
 }
 
 .dark .form-input {
-  border-color: rgb(71 85 105);
-  background-color: rgb(15 23 42 / 0.85);
+  border-color: var(--border-1);
+  background-color: rgba(15, 26, 46, 0.85);
   color: #e8ecf4;
   box-shadow: none;
 }
 
 .dark .form-input:focus {
   border-color: var(--color-brand-orange);
-  box-shadow: 0 0 0 3px rgba(247, 146, 57, 0.22);
+  box-shadow: none;
 }
 
-/* Utility: shiny card */
+/* Utility: neutral panel (border-led, minimal shadow) */
 .tracker-card {
-  background: white;
-  border-radius: 18px;
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.06),
-    0 8px 24px -12px rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(15, 23, 42, 0.06);
+  background: var(--surface-1);
+  border-radius: var(--radius);
+  box-shadow: none;
+  border: 1px solid var(--border-1);
 }
 
 .dark .tracker-card {
-  background: rgb(15 23 42 / 0.72);
-  border-color: rgb(51 65 85 / 0.55);
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.25),
-    0 8px 28px -14px rgba(0, 0, 0, 0.45);
+  background: var(--surface-1);
+  border-color: var(--border-1);
+  box-shadow: none;
 }
 
 /* Print styles — for PDF export */

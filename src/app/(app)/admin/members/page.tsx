@@ -42,7 +42,7 @@ export default async function MembersPage() {
     <div className="tracker-card overflow-hidden">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-slate-50 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 text-left text-xs uppercase tracking-wider">
+          <tr className="bg-[var(--surface-2)] text-[color:var(--muted-2)] text-left text-xs uppercase tracking-wider">
             <th className="px-4 py-3 font-semibold">Name</th>
             <th className="px-4 py-3 font-semibold">Grade</th>
             <th className="px-4 py-3 font-semibold">Role</th>
@@ -65,9 +65,9 @@ export default async function MembersPage() {
           {rows.map((p) => (
             <tr
               key={p.id}
-              className="border-t border-slate-100 dark:border-slate-700"
+              className="border-t border-[var(--border-2)]"
             >
-              <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-100">
+              <td className="px-4 py-3 font-medium text-[color:var(--color-brand-ink)] dark:text-white">
                 {p.full_name || "(no name)"}
                 {p.is_admin && (
                   <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded bg-brand-navy text-white text-[10px] font-bold uppercase">
@@ -75,16 +75,16 @@ export default async function MembersPage() {
                   </span>
                 )}
               </td>
-              <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+              <td className="px-4 py-3 text-[color:var(--muted)] dark:text-slate-300">
                 {p.grade ?? "—"}
               </td>
-              <td className="px-4 py-3 text-slate-700 dark:text-slate-300 capitalize">
+              <td className="px-4 py-3 text-[color:var(--muted)] dark:text-slate-300 capitalize">
                 {p.role}
               </td>
-              <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+              <td className="px-4 py-3 text-[color:var(--muted)] dark:text-slate-300">
                 {formatHours(p.approved_hours)}
               </td>
-              <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+              <td className="px-4 py-3 text-[color:var(--muted)] dark:text-slate-300">
                 {p.total_events}
               </td>
               <td className="px-4 py-3 text-right">

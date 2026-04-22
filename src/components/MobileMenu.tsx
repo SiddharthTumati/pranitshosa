@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { signOutAction } from "@/app/actions/auth";
 
 export function MobileMenu({
@@ -39,15 +40,7 @@ export function MobileMenu({
         aria-label="Open menu"
         className="inline-flex items-center justify-center w-10 h-10 rounded-full text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition"
       >
-        <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden>
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            d="M4 7h16M4 12h16M4 17h16"
-          />
-        </svg>
+        <Menu className="w-6 h-6" aria-hidden />
       </button>
 
       {open && (
@@ -72,15 +65,7 @@ export function MobileMenu({
                 aria-label="Close menu"
                 className="w-9 h-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200"
               >
-                <svg viewBox="0 0 24 24" className="w-5 h-5">
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    d="M6 6l12 12M18 6L6 18"
-                  />
-                </svg>
+                <X className="w-5 h-5" aria-hidden />
               </button>
             </div>
 

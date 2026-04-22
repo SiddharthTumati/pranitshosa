@@ -115,48 +115,48 @@ export function Tracker({
   return (
     <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-10">
       <div className="tracker-card print-surface p-4 sm:p-8">
-        {/* Navy header */}
-        <div className="relative rounded-2xl bg-brand-navy text-white p-5 sm:p-7 overflow-hidden border border-white/15">
-          <div className="flex items-start justify-between gap-6">
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="inline-flex rounded-md bg-brand-orange px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-sm ring-1 ring-white/30">
-                  MRHS HOSA
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/80">
-                  Mavericks · Service tracker
-                </span>
-              </div>
-              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-white/90">
-                <span className="text-white">{chapterSchool}</span>
-                <span className="text-brand-orange font-extrabold"> {chapterHosa}</span>
-              </p>
-              <h1 className="mt-3 text-2xl sm:text-3xl font-bold leading-tight truncate">
-                {profile.full_name?.trim() || "Insert Name Here"}
-              </h1>
-              <p className="mt-1 text-sm text-white/80">
-                {profile.grade ? `${ordinal(profile.grade)} Grade · ` : ""}
-                {isOfficer ? "Officer" : "Member"} · {yearLabel}
-              </p>
-            </div>
-            <div className="hidden sm:inline-flex h-[3.75rem] items-center justify-center rounded-2xl bg-white shrink-0 px-3 py-2 shadow-[0_4px_14px_-2px_rgba(0,0,0,0.12)] ring-1 ring-slate-900/[0.05]">
-              <Logo className="h-12" variant="onLight" />
+        {/* Editorial header grid */}
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-10">
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--muted-2)]">
+              {chapterSchool}{" "}
+              <span className="text-[color:var(--color-brand-navy)] dark:text-slate-100">
+                {chapterHosa}
+              </span>
+            </p>
+            <h1 className="mt-2 text-3xl sm:text-4xl font-semibold tracking-[-0.02em] text-[color:var(--color-brand-ink)] dark:text-white truncate">
+              {profile.full_name?.trim() || "Insert Name Here"}
+            </h1>
+            <p className="mt-1 text-sm text-[color:var(--muted)] dark:text-slate-300">
+              {profile.grade ? `${ordinal(profile.grade)} Grade · ` : ""}
+              {isOfficer ? "Officer" : "Member"} · {yearLabel}
+            </p>
+
+            <div className="mt-5 flex items-center gap-3">
+              <Logo className="h-9" variant="onLight" />
+              <span className="text-xs text-[color:var(--muted)] dark:text-slate-400">
+                Approved hours only. Pending doesn’t count yet.
+              </span>
             </div>
           </div>
-        </div>
 
-        {/* Stat row */}
-        <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatCard label="Total Hours" value={formatHours(totalHours)} />
-          <StatCard label="Events Participated In" value={String(eventCount)} />
-          <StatCard
-            label="Meets HOSA Requirements?"
-            value={<Check met={memberReqMet} />}
-          />
-          <StatCard
-            label="Officer Requirements Met?"
-            value={<Check met={officerReqMet} />}
-          />
+          {/* Metrics column with a purposeful vertical rule */}
+          <div className="lg:pl-10 lg:border-l lg:border-[var(--border-2)]">
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-5">
+              <Metric label="Approved total" value={formatHours(totalHours)} />
+              <Metric label="Approved events" value={String(eventCount)} />
+              <Metric
+                label="HOSA minimum met"
+                value={<Check met={memberReqMet} />}
+                compact
+              />
+              <Metric
+                label="Officer minimum met"
+                value={<Check met={officerReqMet} />}
+                compact
+              />
+            </dl>
+          </div>
         </div>
 
         {/* Semester summary */}
@@ -178,18 +178,24 @@ export function Tracker({
 
         {/* Event Log */}
         <SectionLabel>Event Log</SectionLabel>
-        <div className="rounded-xl overflow-x-auto border border-slate-200 dark:border-slate-600 -mx-1 sm:mx-0">
+        <div className="overflow-x-auto border border-[var(--border-1)] rounded-[var(--radius)] -mx-1 sm:mx-0">
           <table className="w-full text-sm min-w-[520px]">
             <thead>
-              <tr className="bg-brand-navy text-white">
-                <th className="text-left font-semibold px-4 py-3">Event</th>
+              <tr className="bg-[var(--surface-2)] text-[color:var(--muted-2)]">
+                <th className="text-left font-semibold px-4 py-3 border-b border-[var(--border-1)]">
+                  Event
+                </th>
                 <th className="text-left font-semibold px-4 py-3 hidden sm:table-cell">
                   Semester
                 </th>
-                <th className="text-left font-semibold px-4 py-3">Hours</th>
-                <th className="text-left font-semibold px-4 py-3">Category</th>
+                <th className="text-left font-semibold px-4 py-3 border-b border-[var(--border-1)]">
+                  Hours
+                </th>
+                <th className="text-left font-semibold px-4 py-3 border-b border-[var(--border-1)]">
+                  Category
+                </th>
                 {!printMode && (
-                  <th className="text-right font-semibold px-4 py-3 no-print">
+                  <th className="text-right font-semibold px-4 py-3 no-print border-b border-[var(--border-1)]">
                     {""}
                   </th>
                 )}
@@ -348,25 +354,6 @@ export function Tracker({
   );
 }
 
-function StatCard({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50/80 dark:bg-slate-800/80 px-3 py-3 sm:px-4 flex flex-col items-center text-center">
-      <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-navy dark:text-slate-200 leading-tight">
-        {label}
-      </p>
-      <div className="mt-1.5 text-2xl sm:text-3xl font-bold text-brand-navy dark:text-white min-h-[2rem] sm:min-h-[2.25rem] flex items-center">
-        {value}
-      </div>
-    </div>
-  );
-}
-
 function SemesterCard({
   title,
   hours,
@@ -396,6 +383,31 @@ function SemesterCard({
           {officerMet ? " ✓" : ""}
         </Pill>
       </div>
+    </div>
+  );
+}
+
+function Metric({
+  label,
+  value,
+  compact = false,
+}: {
+  label: string;
+  value: React.ReactNode;
+  compact?: boolean;
+}) {
+  return (
+    <div>
+      <dt className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--muted-2)]">
+        {label}
+      </dt>
+      <dd
+        className={`mt-1 font-semibold text-[color:var(--color-brand-ink)] dark:text-white ${
+          compact ? "text-xl" : "text-2xl"
+        }`}
+      >
+        {value}
+      </dd>
     </div>
   );
 }

@@ -13,42 +13,57 @@ export function MrhsAuthShell({ title, description, children }: Props) {
   const { school, hosa } = parseChapterMrhsHosa(full);
 
   return (
-    <div className="relative flex-1 flex items-center justify-center px-4 py-10 sm:py-14">
+    <div className="relative flex-1 px-4 py-10 sm:py-14">
       <AuthThemeToggle />
-      <div className="w-full max-w-md rounded-2xl overflow-hidden shadow-[0_14px_44px_-14px_rgba(0,68,173,0.28)] border-2 border-brand-navy/25 bg-white dark:border-slate-600 dark:bg-slate-900 dark:shadow-[0_14px_44px_-14px_rgba(0,0,0,0.45)]">
-        <div className="px-7 sm:px-9 py-8">
-          <div className="flex items-start gap-4 sm:gap-5 mb-8">
-            <div className="h-16 rounded-2xl bg-brand-navy flex items-center justify-center shrink-0 shadow-[0_6px_20px_-4px_rgba(0,68,173,0.45)] border border-white/25 px-3">
-              <Logo className="h-11" variant="onNavy" />
+
+      <div className="max-w-5xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
+        {/* Brand column (editorial, asymmetric) */}
+        <div className="pt-4 lg:pt-10">
+          <div className="flex items-center gap-3">
+            <div className="h-10 rounded-xl bg-brand-navy inline-flex items-center justify-center px-2.5 border border-white/15">
+              <Logo className="h-7" variant="onNavy" />
             </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="inline-flex rounded-md bg-brand-orange px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-sm ring-1 ring-white/25">
-                  MRHS HOSA
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-navy/55 dark:text-slate-400">
-                  Mavericks
-                </span>
-              </div>
-              <h1 className="leading-[1.05]">
-                <span className="block text-lg sm:text-xl font-extrabold tracking-tight text-brand-navy uppercase dark:text-slate-100">
-                  {school}
-                </span>
-                <span className="block text-[2.65rem] sm:text-5xl font-black tracking-tight text-brand-orange drop-shadow-sm">
-                  {hosa.toUpperCase()}
-                </span>
-              </h1>
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-[color:var(--muted-2)]">
+                {school}
+              </p>
+              <p className="text-sm font-semibold text-[color:var(--color-brand-ink)] dark:text-slate-100">
+                {hosa.toUpperCase()}
+              </p>
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-brand-navy mb-1 dark:text-slate-100">
-            {title}
-          </h2>
-          <p className="text-sm text-slate-600 mb-6 dark:text-slate-400">
-            {description}
-          </p>
+          <div className="mt-10 lg:mt-14">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-2)]">
+              MRHS HOSA
+            </p>
+            <h1 className="mt-3 text-4xl sm:text-5xl font-semibold tracking-[-0.02em] text-[color:var(--color-brand-ink)] dark:text-white leading-[1.02]">
+              Service hours,{" "}
+              <span className="text-[color:var(--color-brand-navy)] dark:text-slate-100">
+                without the spreadsheet.
+              </span>
+            </h1>
+            <p className="mt-4 max-w-xl text-base text-[color:var(--muted)] dark:text-slate-300 leading-relaxed">
+              Log events, attach proof when needed, and let officers approve as
+              they go. This stays simple on purpose.
+            </p>
+          </div>
+        </div>
 
-          {children}
+        {/* Form column */}
+        <div className="tracker-card p-6 sm:p-8">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[color:var(--color-brand-ink)] dark:text-white">
+                {title}
+              </h2>
+              <p className="mt-1 text-sm text-[color:var(--muted)] dark:text-slate-300">
+                {description}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6">{children}</div>
         </div>
       </div>
     </div>

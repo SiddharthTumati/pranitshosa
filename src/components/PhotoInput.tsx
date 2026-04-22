@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { Camera, ImageUp } from "lucide-react";
 
 type Props = {
   onChange: (file: File | null) => void;
@@ -88,24 +89,7 @@ export function PhotoInput({ onChange, preview, fileName, sizeBytes }: Props) {
             onClick={() => cameraRef.current?.click()}
             className="flex flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-3 py-5 text-slate-600 hover:border-brand-navy hover:text-brand-navy active:scale-[0.98] transition"
           >
-            <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden>
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 8a2 2 0 0 1 2-2h2l1.5-2h5L16 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"
-              />
-              <circle
-                cx="12"
-                cy="13"
-                r="3.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-              />
-            </svg>
+            <Camera className="w-7 h-7" aria-hidden />
             <span className="text-sm font-semibold">Take photo</span>
           </button>
           <button
@@ -113,17 +97,7 @@ export function PhotoInput({ onChange, preview, fileName, sizeBytes }: Props) {
             onClick={() => galleryRef.current?.click()}
             className="flex flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-3 py-5 text-slate-600 hover:border-brand-navy hover:text-brand-navy active:scale-[0.98] transition"
           >
-            <svg viewBox="0 0 24 24" className="w-7 h-7" aria-hidden>
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16v12H4z M4 15l5-5 4 4 3-3 4 4"
-              />
-              <circle cx="9" cy="9.5" r="1.4" fill="currentColor" />
-            </svg>
+            <ImageUp className="w-7 h-7" aria-hidden />
             <span className="text-sm font-semibold">Upload</span>
           </button>
         </div>
