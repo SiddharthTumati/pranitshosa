@@ -3,7 +3,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Tracker } from "@/components/tracker/Tracker";
 import { PrintTrigger } from "./PrintTrigger";
-import type { EventRow, Profile } from "@/lib/types";
+import { chapterName, chapterOfficerEmail } from "@/lib/chapterConfig";
+import { EVENTS_WITH_AUDIT_SELECT } from "@/lib/eventQueries";
+import type { EventRowWithAudit, Profile } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -44,13 +46,11 @@ export default async function ExportPage({
 
   const { data: events } = await supabase
     .from("events")
-    .select("*")
+    .select(EVENTS_WITH_AUDIT_SELECT)
     .eq("user_id", userId)
     .order("event_date", { ascending: true });
 
-  const chapterName =
-    process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "Marvin Ridge High School HOSA";
-  const officerEmail = process.env.NEXT_PUBLIC_COMMUNITY_SERVICE_EMAIL;
+  const packetGeneratedAt = new Date().toISOString();
 
   return (
     <>
@@ -67,10 +67,11 @@ export default async function ExportPage({
       </div>
       <Tracker
         profile={profile}
-        events={(events as EventRow[]) ?? []}
-        chapterName={chapterName}
-        officerEmail={officerEmail}
+        events={(events as EventRowWithAudit[]) ?? []}
+        chapterName={chapterName()}
+        officerEmail={chapterOfficerEmail()}
         printMode
+        packetGeneratedAt={packetGeneratedAt}
       />
     </>
   );

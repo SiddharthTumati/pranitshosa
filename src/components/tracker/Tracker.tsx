@@ -1,26 +1,32 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { EventAuditTrail } from "@/components/tracker/EventAuditTrail";
+import { chapterTrackerFootnote } from "@/lib/chapterConfig";
 import { parseChapterMrhsHosa } from "@/lib/mrhsBranding";
-import type { EventRow, Profile } from "@/lib/types";
+import type { EventRowWithAudit, Profile } from "@/lib/types";
 import {
   HOSA_MINIMUM_HOURS,
   OFFICER_MINIMUM_HOURS,
   canEdit,
   formatDate,
+  formatDateTime,
   formatHours,
 } from "@/lib/types";
 
 type Props = {
   profile: Profile;
-  events: EventRow[];
+  events: EventRowWithAudit[];
   chapterName: string;
   officerEmail?: string;
   viewerIsAdmin?: boolean;
   viewingOther?: boolean;
   printMode?: boolean;
+  /** When set with printMode, renders a packet cover (e.g. from export page). */
+  packetGeneratedAt?: string | null;
 };
 
-function sumHours(rows: EventRow[]): number {
+function sumHours(rows: EventRowWithAudit[]): number {
   return rows.reduce((acc, r) => acc + Number(r.hours), 0);
 }
 
@@ -89,6 +95,7 @@ export function Tracker({
   viewerIsAdmin = false,
   viewingOther = false,
   printMode = false,
+  packetGeneratedAt = null,
 }: Props) {
   const approved = events.filter((e) => e.status === "approved");
   const pending = events.filter((e) => e.status === "pending");
@@ -111,10 +118,73 @@ export function Tracker({
   const eventCount = approved.length;
   const { school: chapterSchool, hosa: chapterHosa } =
     parseChapterMrhsHosa(chapterName);
+  const colSpan = printMode ? 4 : 5;
 
   return (
     <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-10">
-      <div className="tracker-card print-surface p-4 sm:p-8">
+      {printMode && packetGeneratedAt && (
+        <div className="tracker-card print-surface p-6 sm:p-8 mb-6">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-2)]">
+            Community service verification
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold text-[color:var(--color-brand-ink)]">
+            Packet cover
+          </h2>
+          <dl className="mt-5 grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm">
+            <div>
+              <dt className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--muted-2)]">
+                Chapter
+              </dt>
+              <dd className="font-medium text-[color:var(--color-brand-ink)]">
+                {chapterName}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--muted-2)]">
+                Member
+              </dt>
+              <dd className="font-medium text-[color:var(--color-brand-ink)]">
+                {profile.full_name?.trim() || "—"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--muted-2)]">
+                Program year
+              </dt>
+              <dd className="font-medium text-[color:var(--color-brand-ink)]">
+                {yearLabel}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[10px] font-bold uppercase tracking-wider text-[color:var(--muted-2)]">
+                Generated
+              </dt>
+              <dd className="font-medium text-[color:var(--color-brand-ink)]">
+                {formatDateTime(packetGeneratedAt)}
+              </dd>
+            </div>
+          </dl>
+          {officerEmail && (
+            <p className="mt-4 text-sm text-[color:var(--muted)]">
+              Chapter contact:{" "}
+              <a href={`mailto:${officerEmail}`} className="font-semibold underline">
+                {officerEmail}
+              </a>
+            </p>
+          )}
+          <p className="mt-4 text-xs text-[color:var(--muted-2)] leading-relaxed">
+            The following pages list approved service events and semester totals
+            as recorded in this tracker. Approved hours match the totals in the
+            summary section.
+          </p>
+        </div>
+      )}
+
+      <div
+        className={`tracker-card print-surface p-4 sm:p-8 ${
+          printMode && packetGeneratedAt ? "print-page-break" : ""
+        }`}
+      >
         {/* Editorial header grid */}
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-10">
           <div className="min-w-0">
@@ -205,7 +275,7 @@ export function Tracker({
               {events.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={colSpan}
                     className="px-4 py-8 text-center text-slate-500 dark:text-slate-400"
                   >
                     No events yet.{" "}
@@ -221,8 +291,8 @@ export function Tracker({
                 </tr>
               )}
               {events.map((evt, idx) => (
+                <Fragment key={evt.id}>
                 <tr
-                  key={evt.id}
                   className={
                     idx % 2 === 0
                       ? "bg-white dark:bg-slate-900/40"
@@ -299,6 +369,23 @@ export function Tracker({
                     </td>
                   )}
                 </tr>
+                {!printMode && (
+                  <tr
+                    className={
+                      idx % 2 === 0
+                        ? "bg-white dark:bg-slate-900/40"
+                        : "bg-slate-50/70 dark:bg-slate-800/35"
+                    }
+                  >
+                    <td
+                      colSpan={colSpan}
+                      className="px-4 pb-3 pt-0 border-t border-[var(--border-2)] align-top"
+                    >
+                      <EventAuditTrail event={evt} />
+                    </td>
+                  </tr>
+                )}
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -321,12 +408,38 @@ export function Tracker({
           </p>
         )}
 
+        {printMode && (
+          <div className="mt-10 pt-6 border-t border-slate-300 text-[color:var(--color-brand-ink)]">
+            <p className="text-sm font-semibold uppercase tracking-wide text-[color:var(--muted-2)]">
+              Signatures
+            </p>
+            <p className="text-xs text-[color:var(--muted)] mt-1 mb-6">
+              Optional — use if your packet requires advisor or officer sign-off.
+            </p>
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 text-sm">
+              <div>
+                <p className="text-[color:var(--muted-2)] mb-1">Student</p>
+                <div className="h-10 border-b-2 border-[color:var(--color-brand-ink)]" />
+              </div>
+              <div>
+                <p className="text-[color:var(--muted-2)] mb-1">
+                  Advisor or chapter officer
+                </p>
+                <div className="h-10 border-b-2 border-[color:var(--color-brand-ink)]" />
+              </div>
+            </div>
+            <p className="mt-6 text-xs text-[color:var(--muted-2)] leading-relaxed">
+              By signing, the parties acknowledge that submitted entries have been
+              reviewed against chapter expectations.
+            </p>
+          </div>
+        )}
+
         {/* Footer */}
         <div className="mt-8 pt-5 border-t border-dashed border-slate-300 dark:border-slate-600 flex flex-col gap-2 text-sm">
           <p className="text-xs text-slate-600 dark:text-slate-400">
-            <span className="font-semibold">Note:</span> this website is still
-            not fully functional. Report any bugs to the Community Service
-            Director.
+            <span className="font-semibold">Note:</span>{" "}
+            {chapterTrackerFootnote()}
           </p>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-brand-orange">
           <span>

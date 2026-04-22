@@ -34,6 +34,27 @@ export async function approveEventAction(eventId: string) {
   revalidatePath("/dashboard");
 }
 
+export async function bulkApproveEventIdsAction(eventIds: string[]) {
+  const ids = eventIds.filter(Boolean);
+  if (ids.length === 0) return;
+  const { supabase, user } = await requireAdmin();
+  const now = new Date().toISOString();
+  const { error } = await supabase
+    .from("events")
+    .update({
+      status: "approved",
+      approved_by: user.id,
+      approved_at: now,
+      rejection_reason: null,
+    })
+    .in("id", ids)
+    .eq("status", "pending");
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin");
+  revalidatePath("/admin/all");
+  revalidatePath("/dashboard");
+}
+
 export async function rejectEventAction(eventId: string, reason: string) {
   const { supabase, user } = await requireAdmin();
   const { error } = await supabase

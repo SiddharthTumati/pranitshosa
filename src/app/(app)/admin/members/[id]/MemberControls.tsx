@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateProfileAction } from "@/app/actions/events";
+import { chapterBrandKicker } from "@/lib/chapterConfig";
 import type { Profile } from "@/lib/types";
 
 export function MemberControls({ profile }: { profile: Profile }) {
@@ -36,7 +37,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
   return (
     <div className="tracker-card p-4 sm:p-5 border-l-[3px] border-l-brand-navy">
       <p className="text-[11px] font-bold uppercase tracking-wider text-brand-orange">
-        MRHS roster
+        {chapterBrandKicker()} · Roster
       </p>
       <h2 className="font-semibold text-[color:var(--color-brand-ink)] dark:text-white mt-1 mb-3">
         Member details

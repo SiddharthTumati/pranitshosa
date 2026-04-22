@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AdminTabs } from "@/components/admin/AdminTabs";
+import { chapterBrandKicker } from "@/lib/chapterConfig";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -27,7 +28,7 @@ export default async function AdminLayout({
     return (
       <div className="max-w-md mx-auto p-6 mt-10 tracker-card border-l-[3px] border-l-brand-navy">
         <p className="text-[11px] font-bold uppercase tracking-wider text-brand-orange">
-          MRHS HOSA
+          {chapterBrandKicker()}
         </p>
         <h2 className="mt-2 font-semibold text-lg text-[color:var(--color-brand-ink)] dark:text-white">
           Admin access only
@@ -52,7 +53,7 @@ export default async function AdminLayout({
       <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-wider text-brand-orange">
-            MRHS HOSA
+            {chapterBrandKicker()}
           </p>
           <h1 className="text-2xl font-bold text-brand-navy dark:text-white mt-0.5">
             Admin panel

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { chapterMetaDescription } from "@/lib/chapterConfig";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { appFont } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "HOSA Service Tracker",
-  description: "MRHS HOSA — log service events and hours.",
+  description: chapterMetaDescription(),
   manifest: "/manifest.webmanifest",
   applicationName: "HOSA Tracker",
   appleWebApp: {

@@ -1,6 +1,11 @@
 import { Logo } from "@/components/Logo";
 import { AuthThemeToggle } from "@/components/theme/AuthThemeToggle";
-import { defaultChapterName, parseChapterMrhsHosa } from "@/lib/mrhsBranding";
+import {
+  chapterBrandKicker,
+  chapterLockup,
+  chapterProductTagline,
+  chapterTrustBullets,
+} from "@/lib/chapterConfig";
 
 type Props = {
   title: string;
@@ -9,8 +14,8 @@ type Props = {
 };
 
 export function MrhsAuthShell({ title, description, children }: Props) {
-  const full = defaultChapterName();
-  const { school, hosa } = parseChapterMrhsHosa(full);
+  const { school, hosa } = chapterLockup();
+  const bullets = chapterTrustBullets();
 
   return (
     <div className="relative flex-1 px-4 py-10 sm:py-14">
@@ -35,7 +40,7 @@ export function MrhsAuthShell({ title, description, children }: Props) {
 
           <div className="mt-10 lg:mt-14">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--muted-2)]">
-              MRHS HOSA
+              {chapterBrandKicker()}
             </p>
             <h1 className="mt-3 text-4xl sm:text-5xl font-semibold tracking-[-0.02em] text-[color:var(--color-brand-ink)] dark:text-white leading-[1.02]">
               Service hours,{" "}
@@ -44,9 +49,19 @@ export function MrhsAuthShell({ title, description, children }: Props) {
               </span>
             </h1>
             <p className="mt-4 max-w-xl text-base text-[color:var(--muted)] dark:text-slate-300 leading-relaxed">
-              Log events, attach proof when needed, and let officers approve as
-              they go. This stays simple on purpose.
+              {chapterProductTagline()}
             </p>
+            <ul className="mt-6 max-w-xl space-y-2.5 text-sm text-[color:var(--muted)] dark:text-slate-300">
+              {bullets.map((line) => (
+                <li key={line} className="flex gap-2">
+                  <span
+                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange"
+                    aria-hidden
+                  />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 

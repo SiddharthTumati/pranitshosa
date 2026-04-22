@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { MrhsAuthShell } from "@/components/auth/MrhsAuthShell";
+import { chapterLoginDescription } from "@/lib/chapterConfig";
 import { LoginForm } from "./LoginForm";
 
 export default function LoginPage() {
   return (
     <MrhsAuthShell
       title="Sign in"
-      description="Sign in with your email to log service events and track your hours."
+      description={chapterLoginDescription()}
     >
       <Suspense fallback={<div className="h-64" />}>
         <LoginForm />

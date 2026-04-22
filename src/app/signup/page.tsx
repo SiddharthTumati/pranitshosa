@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { MrhsAuthShell } from "@/components/auth/MrhsAuthShell";
+import { chapterSignupDescription } from "@/lib/chapterConfig";
 import { SignupForm } from "./SignupForm";
 
 export default function SignupPage() {
   return (
     <MrhsAuthShell
       title="Sign up"
-      description="School email is fine. An officer still has to OK your hours (and any photos) before they count."
+      description={chapterSignupDescription()}
     >
       <SignupForm />
 

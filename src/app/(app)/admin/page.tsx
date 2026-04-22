@@ -1,10 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
-import { EventReviewCard } from "@/components/admin/EventReviewCard";
-import type { EventRow } from "@/lib/types";
+import { PendingQueueClient } from "@/components/admin/PendingQueueClient";
+import type { EventWithProfile } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
-
-type PendingEvent = EventRow & { profile: { full_name: string; grade: number | null } };
 
 export default async function AdminPendingPage() {
   const supabase = await createClient();
@@ -15,7 +13,7 @@ export default async function AdminPendingPage() {
     .eq("status", "pending")
     .order("created_at", { ascending: true });
 
-  const rows = (events as PendingEvent[] | null) ?? [];
+  const rows = (events as EventWithProfile[] | null) ?? [];
 
   return (
     <div className="space-y-4">
@@ -35,11 +33,7 @@ export default async function AdminPendingPage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-3">
-          {rows.map((evt) => (
-            <EventReviewCard key={evt.id} event={evt} />
-          ))}
-        </div>
+        <PendingQueueClient events={rows} />
       )}
     </div>
   );

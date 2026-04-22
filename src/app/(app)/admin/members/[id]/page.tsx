@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Tracker } from "@/components/tracker/Tracker";
 import { MemberControls } from "./MemberControls";
-import type { EventRow, Profile } from "@/lib/types";
+import { chapterBrandKicker, chapterName, chapterOfficerEmail } from "@/lib/chapterConfig";
+import { EVENTS_WITH_AUDIT_SELECT } from "@/lib/eventQueries";
+import type { EventRowWithAudit, Profile } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -24,13 +26,9 @@ export default async function MemberDetailPage({
 
   const { data: events } = await supabase
     .from("events")
-    .select("*")
+    .select(EVENTS_WITH_AUDIT_SELECT)
     .eq("user_id", id)
     .order("event_date", { ascending: true });
-
-  const chapterName =
-    process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "Marvin Ridge High School HOSA";
-  const officerEmail = process.env.NEXT_PUBLIC_COMMUNITY_SERVICE_EMAIL;
 
   return (
     <div className="space-y-4">
@@ -45,7 +43,7 @@ export default async function MemberDetailPage({
 
       <div className="tracker-card px-4 sm:px-5 py-4 border-l-[3px] border-l-brand-orange">
         <p className="text-[11px] font-bold uppercase tracking-wider text-brand-navy dark:text-brand-orange">
-          MRHS HOSA · Member view
+          {chapterBrandKicker()} · Member view
         </p>
         <h1 className="text-xl font-semibold text-[color:var(--color-brand-ink)] dark:text-white mt-1">
           {profile.full_name}
@@ -60,9 +58,9 @@ export default async function MemberDetailPage({
 
       <Tracker
         profile={profile}
-        events={(events as EventRow[]) ?? []}
-        chapterName={chapterName}
-        officerEmail={officerEmail}
+        events={(events as EventRowWithAudit[]) ?? []}
+        chapterName={chapterName()}
+        officerEmail={chapterOfficerEmail()}
         viewerIsAdmin
         viewingOther
       />

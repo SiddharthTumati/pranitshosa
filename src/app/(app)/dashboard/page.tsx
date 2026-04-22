@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Tracker } from "@/components/tracker/Tracker";
-import type { EventRow } from "@/lib/types";
+import { chapterName, chapterOfficerEmail } from "@/lib/chapterConfig";
+import { EVENTS_WITH_AUDIT_SELECT } from "@/lib/eventQueries";
+import type { EventRowWithAudit } from "@/lib/types";
 import { ensureProfile } from "@/lib/ensureProfile";
 import { redirect } from "next/navigation";
 
@@ -19,7 +21,7 @@ export default async function DashboardPage() {
 
   const { data: events } = await supabase
     .from("events")
-    .select("*")
+    .select(EVENTS_WITH_AUDIT_SELECT)
     .eq("user_id", user.id)
     .order("event_date", { ascending: true });
 
@@ -41,17 +43,13 @@ export default async function DashboardPage() {
     );
   }
 
-  const chapterName =
-    process.env.NEXT_PUBLIC_CHAPTER_NAME ?? "Marvin Ridge High School HOSA";
-  const officerEmail = process.env.NEXT_PUBLIC_COMMUNITY_SERVICE_EMAIL;
-
   return (
     <>
       <Tracker
         profile={profile}
-        events={(events as EventRow[]) ?? []}
-        chapterName={chapterName}
-        officerEmail={officerEmail}
+        events={(events as EventRowWithAudit[]) ?? []}
+        chapterName={chapterName()}
+        officerEmail={chapterOfficerEmail()}
       />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10 flex flex-col sm:flex-row gap-3 no-print">
         <Link

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { EventFormPageShell } from "@/components/forms/EventFormPageShell";
+import { chapterBrandKicker } from "@/lib/chapterConfig";
 import { canEdit, type EventRow } from "@/lib/types";
 import { EditEventForm } from "./EditEventForm";
 
@@ -31,7 +32,7 @@ export default async function EditEventPage({
     return (
       <div className="max-w-md mx-auto p-6 mt-10 tracker-card border-l-[3px] border-l-brand-navy">
         <p className="text-[11px] font-bold uppercase tracking-wider text-brand-orange">
-          MRHS HOSA
+          {chapterBrandKicker()}
         </p>
         <h2 className="mt-2 font-semibold text-lg text-[color:var(--color-brand-ink)] dark:text-white">
           Not your event
@@ -47,7 +48,7 @@ export default async function EditEventPage({
     return (
       <div className="max-w-lg mx-auto p-6 mt-10 tracker-card border-l-[3px] border-l-brand-orange">
         <p className="text-[11px] font-bold uppercase tracking-wider text-brand-navy dark:text-brand-orange">
-          MRHS HOSA
+          {chapterBrandKicker()}
         </p>
         <h2 className="mt-2 font-semibold text-lg text-[color:var(--color-brand-ink)] dark:text-white">
           This event is locked

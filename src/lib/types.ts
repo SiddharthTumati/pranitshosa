@@ -59,6 +59,11 @@ export type EventRow = {
   updated_at: string;
 };
 
+/** Events joined with approver profile for student-facing audit trail. */
+export type EventRowWithAudit = EventRow & {
+  approver?: { full_name: string } | null;
+};
+
 export type EventWithProfile = EventRow & {
   profile: Pick<Profile, "full_name" | "grade">;
 };
@@ -124,5 +129,17 @@ export function formatDate(iso: string): string {
     month: "short",
     day: "numeric",
     year: "numeric",
+  });
+}
+
+export function formatDateTime(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
   });
 }
