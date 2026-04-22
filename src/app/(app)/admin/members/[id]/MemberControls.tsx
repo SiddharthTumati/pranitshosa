@@ -34,13 +34,16 @@ export function MemberControls({ profile }: { profile: Profile }) {
   }
 
   return (
-    <div className="tracker-card p-4 sm:p-5">
-      <h2 className="font-semibold text-slate-800 dark:text-slate-100 mb-3">
+    <div className="tracker-card p-4 sm:p-5 border-l-[3px] border-l-brand-navy">
+      <p className="text-[11px] font-bold uppercase tracking-wider text-brand-orange">
+        MRHS roster
+      </p>
+      <h2 className="font-semibold text-[color:var(--color-brand-ink)] dark:text-white mt-1 mb-3">
         Member details
       </h2>
       <div className="grid sm:grid-cols-5 gap-3">
         <label className="block sm:col-span-2">
-          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+          <span className="block text-xs font-medium text-[color:var(--muted)] dark:text-slate-400 mb-1">
             Full name
           </span>
           <input
@@ -50,7 +53,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           />
         </label>
         <label className="block">
-          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+          <span className="block text-xs font-medium text-[color:var(--muted)] dark:text-slate-400 mb-1">
             Grade
           </span>
           <select
@@ -66,7 +69,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           </select>
         </label>
         <label className="block">
-          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+          <span className="block text-xs font-medium text-[color:var(--muted)] dark:text-slate-400 mb-1">
             Role
           </span>
           <select
@@ -79,7 +82,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           </select>
         </label>
         <label className="block">
-          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+          <span className="block text-xs font-medium text-[color:var(--muted)] dark:text-slate-400 mb-1">
             Year
           </span>
           <input
@@ -91,7 +94,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
         </label>
       </div>
       <div className="mt-3 flex items-center justify-between flex-wrap gap-3">
-        <label className="inline-flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+        <label className="inline-flex items-center gap-2 text-sm text-[color:var(--muted)] dark:text-slate-300">
           <input
             type="checkbox"
             checked={isAdmin}
@@ -112,7 +115,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           <button
             onClick={save}
             disabled={isPending}
-            className="px-4 py-2 rounded-lg bg-brand-navy text-white font-semibold text-sm hover:bg-brand-navy-dark disabled:opacity-60"
+            className="px-4 py-2 rounded-[var(--radius-sm)] border border-brand-navy-dark bg-brand-navy text-white font-semibold text-sm hover:bg-brand-navy-dark disabled:opacity-60"
           >
             {isPending ? "Saving…" : "Save"}
           </button>

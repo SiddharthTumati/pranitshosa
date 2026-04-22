@@ -37,10 +37,23 @@ export default async function MemberDetailPage({
       <div className="flex items-center gap-3">
         <Link
           href="/admin/members"
-          className="text-sm text-brand-navy dark:text-brand-orange hover:underline"
+          className="text-sm font-medium text-brand-navy dark:text-brand-orange hover:underline"
         >
           ← All members
         </Link>
+      </div>
+
+      <div className="tracker-card px-4 sm:px-5 py-4 border-l-[3px] border-l-brand-orange">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-brand-navy dark:text-brand-orange">
+          MRHS HOSA · Member view
+        </p>
+        <h1 className="text-xl font-semibold text-[color:var(--color-brand-ink)] dark:text-white mt-1">
+          {profile.full_name}
+        </h1>
+        <p className="text-sm text-[color:var(--muted)] dark:text-slate-300 mt-0.5">
+          {profile.is_admin ? "Chapter admin" : "Member"} · Year{" "}
+          {profile.year_label}
+        </p>
       </div>
 
       <MemberControls profile={profile} />

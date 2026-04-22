@@ -50,10 +50,10 @@ export function PhotoInput({ onChange, preview, fileName, sizeBytes }: Props) {
           <img
             src={preview}
             alt="Preview"
-            className="w-full max-h-72 object-cover rounded-lg border border-slate-200 bg-slate-50"
+            className="w-full max-h-72 object-cover rounded-[var(--radius-sm)] border border-[var(--border-1)] bg-[var(--surface-2)]"
           />
           <div className="mt-2 flex items-center justify-between gap-3">
-            <p className="text-xs text-slate-500 truncate">
+            <p className="text-xs text-[color:var(--muted-2)] dark:text-slate-400 truncate">
               {fileName}
               {sizeBytes ? ` · ${formatBytes(sizeBytes)}` : ""}
             </p>
@@ -69,14 +69,14 @@ export function PhotoInput({ onChange, preview, fileName, sizeBytes }: Props) {
             <button
               type="button"
               onClick={() => cameraRef.current?.click()}
-              className="px-3 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-medium hover:bg-slate-200 active:scale-[0.98] transition"
+              className="px-3 py-2 rounded-[var(--radius-sm)] border border-[var(--border-1)] bg-[var(--surface-2)] text-[color:var(--color-brand-ink)] dark:text-slate-200 text-sm font-medium hover:border-brand-navy/40 hover:bg-brand-orange-soft/60 dark:hover:bg-brand-navy/30 active:scale-[0.98] transition"
             >
               Retake
             </button>
             <button
               type="button"
               onClick={() => galleryRef.current?.click()}
-              className="px-3 py-2 rounded-lg bg-slate-100 text-slate-700 text-sm font-medium hover:bg-slate-200 active:scale-[0.98] transition"
+              className="px-3 py-2 rounded-[var(--radius-sm)] border border-[var(--border-1)] bg-[var(--surface-2)] text-[color:var(--color-brand-ink)] dark:text-slate-200 text-sm font-medium hover:border-brand-navy/40 hover:bg-brand-orange-soft/60 dark:hover:bg-brand-navy/30 active:scale-[0.98] transition"
             >
               Pick another
             </button>
@@ -87,7 +87,7 @@ export function PhotoInput({ onChange, preview, fileName, sizeBytes }: Props) {
           <button
             type="button"
             onClick={() => cameraRef.current?.click()}
-            className="flex flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-3 py-5 text-slate-600 hover:border-brand-navy hover:text-brand-navy active:scale-[0.98] transition"
+            className="flex flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] border-2 border-dashed border-[var(--border-1)] bg-[var(--surface-2)] px-3 py-5 text-[color:var(--muted)] hover:border-brand-navy hover:bg-brand-orange-soft/50 dark:hover:bg-brand-navy/25 hover:text-brand-navy dark:hover:text-brand-orange active:scale-[0.98] transition"
           >
             <Camera className="w-7 h-7" aria-hidden />
             <span className="text-sm font-semibold">Take photo</span>
@@ -95,7 +95,7 @@ export function PhotoInput({ onChange, preview, fileName, sizeBytes }: Props) {
           <button
             type="button"
             onClick={() => galleryRef.current?.click()}
-            className="flex flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 px-3 py-5 text-slate-600 hover:border-brand-navy hover:text-brand-navy active:scale-[0.98] transition"
+            className="flex flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] border-2 border-dashed border-[var(--border-1)] bg-[var(--surface-2)] px-3 py-5 text-[color:var(--muted)] hover:border-brand-navy hover:bg-brand-orange-soft/50 dark:hover:bg-brand-navy/25 hover:text-brand-navy dark:hover:text-brand-orange active:scale-[0.98] transition"
           >
             <ImageUp className="w-7 h-7" aria-hidden />
             <span className="text-sm font-semibold">Upload</span>

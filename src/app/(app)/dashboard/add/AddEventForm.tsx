@@ -13,6 +13,7 @@ import {
 } from "@/lib/types";
 import { compressImage } from "@/lib/compressImage";
 import { PhotoInput } from "@/components/PhotoInput";
+import { Field } from "@/components/forms/Field";
 
 function guessSemester(dateStr: string): Semester {
   if (!dateStr) return "fall";
@@ -160,7 +161,7 @@ export function AddEventForm() {
             required
             value={minutes}
             onChange={(e) => setMinutes(e.target.value)}
-            className="form-input bg-white dark:bg-slate-800/80 dark:text-slate-100"
+            className="form-input"
           >
             {DURATION_MINUTE_CHOICES.map((m) => (
               <option key={m} value={String(m)}>
@@ -179,7 +180,7 @@ export function AddEventForm() {
               setSemester(e.target.value as Semester);
               setSemesterAuto(false);
             }}
-            className="form-input bg-white"
+            className="form-input"
           >
             <option value="fall">Fall</option>
             <option value="spring">Spring</option>
@@ -190,7 +191,7 @@ export function AddEventForm() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value as Category)}
-            className="form-input bg-white"
+            className="form-input"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -224,7 +225,7 @@ export function AddEventForm() {
       </Field>
 
       {error && (
-        <div className="rounded-lg bg-red-50 border border-red-200 text-red-800 px-3 py-2 text-sm">
+        <div className="rounded-[var(--radius-sm)] bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 text-red-800 dark:text-red-200 px-3 py-2 text-sm">
           {error}
         </div>
       )}
@@ -233,37 +234,11 @@ export function AddEventForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="flex-1 rounded-lg bg-brand-navy text-white font-semibold py-2.5 hover:bg-brand-navy-dark disabled:opacity-60"
+          className="flex-1 rounded-[var(--radius-sm)] border border-brand-navy-dark bg-brand-navy text-white font-semibold py-2.5 hover:bg-brand-navy-dark disabled:opacity-60"
         >
           {submitting ? "Submitting…" : "Submit for approval"}
         </button>
       </div>
     </form>
-  );
-}
-
-function Field({
-  label,
-  required,
-  hint,
-  children,
-}: {
-  label: string;
-  required?: boolean;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-        {label} {required && <span className="text-red-500">*</span>}
-      </span>
-      {children}
-      {hint && (
-        <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">
-          {hint}
-        </span>
-      )}
-    </label>
   );
 }
