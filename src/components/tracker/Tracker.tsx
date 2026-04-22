@@ -315,15 +315,14 @@ export function Tracker({
           </p>
         )}
 
-        <SectionLabel>HOSA</SectionLabel>
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-600 bg-slate-50/90 dark:bg-slate-800/50 px-6 py-8 sm:py-10 flex flex-col items-center text-center">
-          <div className="rounded-2xl bg-white dark:bg-slate-950 px-7 py-6 sm:px-8 sm:py-7 border border-slate-200/80 dark:border-slate-600 shadow-[0_4px_24px_-8px_rgba(15,23,42,0.12)] dark:shadow-[0_4px_24px_-8px_rgba(0,0,0,0.4)]">
-            <Logo className="w-full max-w-[min(100%,20rem)]" variant="onLight" />
-          </div>
-        </div>
-
         {/* Footer */}
-        <div className="mt-8 pt-5 border-t border-dashed border-slate-300 dark:border-slate-600 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-brand-orange">
+        <div className="mt-8 pt-5 border-t border-dashed border-slate-300 dark:border-slate-600 flex flex-col gap-2 text-sm">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            <span className="font-semibold">Note:</span> this website is still
+            not fully functional. Report any bugs to the Community Service
+            Director.
+          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-brand-orange">
           <span>
             {chapterName} · {yearLabel} Service Tracker
           </span>
@@ -342,6 +341,7 @@ export function Tracker({
               <>Ask a chapter officer if something looks wrong.</>
             )}
           </span>
+          </div>
         </div>
       </div>
     </div>
