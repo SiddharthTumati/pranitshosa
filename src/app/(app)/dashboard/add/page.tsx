@@ -7,13 +7,15 @@ export default function AddEventPage() {
       <div className="mb-4">
         <Link
           href="/dashboard"
-          className="text-sm text-brand-navy hover:underline"
+          className="text-sm text-brand-navy dark:text-brand-orange hover:underline"
         >
           ← Back to dashboard
         </Link>
       </div>
       <div className="tracker-card p-6 sm:p-8">
-        <h1 className="text-2xl font-bold text-brand-navy">Log a new event</h1>
+        <h1 className="text-2xl font-bold text-brand-navy dark:text-slate-100">
+          Log a new event
+        </h1>
         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
           Add what you did. Photo optional. It shows as{" "}
           <span className="font-semibold">pending</span> until an officer

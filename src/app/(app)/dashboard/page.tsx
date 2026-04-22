@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Tracker } from "@/components/tracker/Tracker";
-import type { EventRow, Profile } from "@/lib/types";
+import type { EventRow } from "@/lib/types";
+import { ensureProfile } from "@/lib/ensureProfile";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -14,11 +15,7 @@ export default async function DashboardPage() {
 
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single<Profile>();
+  const profile = await ensureProfile(supabase, user);
 
   const { data: events } = await supabase
     .from("events")
@@ -29,10 +26,16 @@ export default async function DashboardPage() {
   if (!profile) {
     return (
       <div className="max-w-md mx-auto mt-16 p-6 tracker-card text-center">
-        <h2 className="font-bold mb-2">Setting up your profile…</h2>
-        <p className="text-sm text-slate-600">
-          If you just signed up, refresh the page. If this keeps happening,
-          contact an officer.
+        <h2 className="font-bold mb-2">Couldn&apos;t load your profile</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400">
+          You&apos;re signed in, but there&apos;s no profile row yet (or the
+          database blocked creating it). Whoever runs your Supabase project should
+          open <strong>SQL Editor</strong>, paste in{" "}
+          <span className="font-mono text-xs bg-slate-100 dark:bg-slate-800 px-1 rounded">
+            0003_profiles_insert_use_auth_users_email.sql
+          </span>{" "}
+          from the GitHub repo under <span className="font-mono text-xs">supabase/migrations/</span>, run it, then refresh. If you never ran{" "}
+          <span className="font-mono text-xs">0002_profile_bootstrap.sql</span>, do that first.
         </p>
       </div>
     );

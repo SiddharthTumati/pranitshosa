@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   CATEGORIES,
+  DURATION_MINUTE_CHOICES,
+  formatDurationChoiceLabel,
+  minutesToDbHours,
+  snapMinutesToChoice,
   type Category,
   type EventRow,
   type Semester,
@@ -17,7 +21,9 @@ export function EditEventForm({ event }: { event: EventRow }) {
   const [name, setName] = useState(event.name);
   const [date, setDate] = useState(event.event_date);
   const [semester, setSemester] = useState<Semester>(event.semester);
-  const [hours, setHours] = useState<string>(String(event.hours));
+  const [minutes, setMinutes] = useState(() =>
+    String(snapMinutesToChoice(Math.round(Number(event.hours) * 60)))
+  );
   const [category, setCategory] = useState<Category>(event.category);
   const [notes, setNotes] = useState(event.notes ?? "");
   const [photo, setPhoto] = useState<File | null>(null);
@@ -48,12 +54,16 @@ export function EditEventForm({ event }: { event: EventRow }) {
       return;
     }
 
-    const hoursNum = Number(hours);
-    if (!Number.isFinite(hoursNum) || hoursNum <= 0) {
-      setError("Hours must be a positive number.");
+    const minutesNum = parseInt(minutes, 10);
+    if (
+      !Number.isFinite(minutesNum) ||
+      !DURATION_MINUTE_CHOICES.includes(minutesNum)
+    ) {
+      setError("Pick a valid duration (1 min, or 5-minute steps).");
       setSubmitting(false);
       return;
     }
+    const hoursNum = minutesToDbHours(minutesNum);
 
     let photoUrl: string | null = keepPhoto ? event.photo_url : null;
     let photoPath: string | null = keepPhoto ? event.photo_path : null;
@@ -131,16 +141,23 @@ export function EditEventForm({ event }: { event: EventRow }) {
             className="form-input"
           />
         </Field>
-        <Field label="Hours" required>
-          <input
-            type="number"
+        <Field
+          label="Time spent"
+          required
+          hint="1 minute minimum, then 5, 10, 15… up to 8 hours."
+        >
+          <select
             required
-            min="0.25"
-            step="0.25"
-            value={hours}
-            onChange={(e) => setHours(e.target.value)}
-            className="form-input"
-          />
+            value={minutes}
+            onChange={(e) => setMinutes(e.target.value)}
+            className="form-input bg-white dark:bg-slate-800/80 dark:text-slate-100"
+          >
+            {DURATION_MINUTE_CHOICES.map((m) => (
+              <option key={m} value={String(m)}>
+                {formatDurationChoiceLabel(m)}
+              </option>
+            ))}
+          </select>
         </Field>
       </div>
 
@@ -172,14 +189,14 @@ export function EditEventForm({ event }: { event: EventRow }) {
 
       {event.photo_url && keepPhoto && (
         <div>
-          <p className="text-sm font-medium text-slate-700 mb-1.5">
+          <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
             Current photo
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={event.photo_url}
             alt="Event"
-            className="max-h-48 rounded-lg border border-slate-200"
+            className="max-h-48 rounded-lg border border-slate-200 dark:border-slate-600"
           />
           <button
             type="button"
@@ -244,11 +261,15 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-sm font-medium text-slate-700 mb-1.5">
+      <span className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </span>
       {children}
-      {hint && <span className="block text-xs text-slate-500 mt-1">{hint}</span>}
+      {hint && (
+        <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">
+          {hint}
+        </span>
+      )}
     </label>
   );
 }

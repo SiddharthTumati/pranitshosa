@@ -37,7 +37,7 @@ export default async function MemberDetailPage({
       <div className="flex items-center gap-3">
         <Link
           href="/admin/members"
-          className="text-sm text-brand-navy hover:underline"
+          className="text-sm text-brand-navy dark:text-brand-orange hover:underline"
         >
           ← All members
         </Link>

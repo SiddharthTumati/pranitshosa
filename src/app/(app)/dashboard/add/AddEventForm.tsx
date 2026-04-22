@@ -3,7 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { CATEGORIES, type Category, type Semester } from "@/lib/types";
+import {
+  CATEGORIES,
+  DURATION_MINUTE_CHOICES,
+  formatDurationChoiceLabel,
+  minutesToDbHours,
+  type Category,
+  type Semester,
+} from "@/lib/types";
 import { compressImage } from "@/lib/compressImage";
 import { PhotoInput } from "@/components/PhotoInput";
 
@@ -21,7 +28,7 @@ export function AddEventForm() {
   const [date, setDate] = useState("");
   const [semester, setSemester] = useState<Semester>("fall");
   const [semesterAuto, setSemesterAuto] = useState(true);
-  const [hours, setHours] = useState<string>("1");
+  const [minutes, setMinutes] = useState("30");
   const [category, setCategory] = useState<Category>("Community");
   const [notes, setNotes] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
@@ -56,12 +63,16 @@ export function AddEventForm() {
       return;
     }
 
-    const hoursNum = Number(hours);
-    if (!Number.isFinite(hoursNum) || hoursNum <= 0) {
-      setError("Hours must be a positive number.");
+    const minutesNum = parseInt(minutes, 10);
+    if (
+      !Number.isFinite(minutesNum) ||
+      !DURATION_MINUTE_CHOICES.includes(minutesNum)
+    ) {
+      setError("Pick a valid duration (1 min, or 5-minute steps).");
       setSubmitting(false);
       return;
     }
+    const hoursNum = minutesToDbHours(minutesNum);
 
     let photoUrl: string | null = null;
     let photoPath: string | null = null;
@@ -140,16 +151,23 @@ export function AddEventForm() {
           />
         </Field>
 
-        <Field label="Hours" required hint="e.g. 0.5 = 30 min">
-          <input
-            type="number"
+        <Field
+          label="Time spent"
+          required
+          hint="1 minute minimum, then 5, 10, 15… up to 8 hours."
+        >
+          <select
             required
-            min="0.25"
-            step="0.25"
-            value={hours}
-            onChange={(e) => setHours(e.target.value)}
-            className="form-input"
-          />
+            value={minutes}
+            onChange={(e) => setMinutes(e.target.value)}
+            className="form-input bg-white dark:bg-slate-800/80 dark:text-slate-100"
+          >
+            {DURATION_MINUTE_CHOICES.map((m) => (
+              <option key={m} value={String(m)}>
+                {formatDurationChoiceLabel(m)}
+              </option>
+            ))}
+          </select>
         </Field>
       </div>
 
@@ -237,11 +255,15 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-sm font-medium text-slate-700 mb-1.5">
+      <span className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
         {label} {required && <span className="text-red-500">*</span>}
       </span>
       {children}
-      {hint && <span className="block text-xs text-slate-500 mt-1">{hint}</span>}
+      {hint && (
+        <span className="block text-xs text-slate-500 dark:text-slate-400 mt-1">
+          {hint}
+        </span>
+      )}
     </label>
   );
 }

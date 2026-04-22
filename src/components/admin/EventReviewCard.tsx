@@ -38,7 +38,7 @@ export function EventReviewCard({ event }: Props) {
           href={event.photo_url}
           target="_blank"
           rel="noreferrer"
-          className="shrink-0 relative w-full sm:w-48 h-44 sm:h-36 rounded-lg overflow-hidden border border-slate-200"
+          className="shrink-0 relative w-full sm:w-48 h-44 sm:h-36 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-600"
         >
           <Image
             src={event.photo_url}
@@ -50,7 +50,7 @@ export function EventReviewCard({ event }: Props) {
           />
         </a>
       ) : (
-        <div className="shrink-0 w-full sm:w-48 h-44 sm:h-36 rounded-lg bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400">
+        <div className="shrink-0 w-full sm:w-48 h-44 sm:h-36 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400">
           No photo
         </div>
       )}
@@ -58,8 +58,10 @@ export function EventReviewCard({ event }: Props) {
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div>
-            <h3 className="font-bold text-slate-900">{event.name}</h3>
-            <p className="text-sm text-slate-600 mt-0.5">
+            <h3 className="font-bold text-slate-900 dark:text-slate-50">
+              {event.name}
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-0.5">
               {event.profile?.full_name ?? "Student"}
               {event.profile?.grade ? ` · ${event.profile.grade}th` : ""}
             </p>
@@ -75,21 +77,21 @@ export function EventReviewCard({ event }: Props) {
         </dl>
 
         {event.notes && (
-          <p className="mt-3 text-sm text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+          <p className="mt-3 text-sm text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-600 rounded-lg px-3 py-2">
             <span className="font-semibold">Notes: </span>
             {event.notes}
           </p>
         )}
 
         {event.rejection_reason && event.status === "rejected" && (
-          <p className="mt-3 text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <p className="mt-3 text-sm text-red-800 dark:text-red-200 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-lg px-3 py-2">
             <span className="font-semibold">Rejected: </span>
             {event.rejection_reason}
           </p>
         )}
 
         {error && (
-          <p className="mt-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <p className="mt-3 text-sm text-red-700 dark:text-red-200 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-lg px-3 py-2">
             {error}
           </p>
         )}
@@ -121,7 +123,7 @@ export function EventReviewCard({ event }: Props) {
                   setShowReject(false);
                   setReason("");
                 }}
-                className="px-3 py-1.5 rounded-lg bg-slate-100 text-sm font-medium hover:bg-slate-200"
+                className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-medium text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700"
               >
                 Cancel
               </button>
@@ -142,7 +144,7 @@ export function EventReviewCard({ event }: Props) {
               <button
                 disabled={isPending}
                 onClick={() => setShowReject(true)}
-                className="px-3 py-1.5 rounded-lg bg-white border border-red-300 text-red-700 text-sm font-semibold hover:bg-red-50"
+                className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 text-sm font-semibold hover:bg-red-50 dark:hover:bg-red-950/30"
               >
                 Reject
               </button>
@@ -151,7 +153,7 @@ export function EventReviewCard({ event }: Props) {
               <button
                 disabled={isPending}
                 onClick={() => doAction(() => reopenEventAction(event.id))}
-                className="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-50"
+                className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700"
               >
                 Re-open
               </button>
@@ -167,7 +169,7 @@ export function EventReviewCard({ event }: Props) {
                   doAction(() => deleteEventAction(event.id));
                 }
               }}
-              className="ml-auto px-3 py-1.5 rounded-lg text-red-600 text-sm font-medium hover:bg-red-50"
+              className="ml-auto px-3 py-1.5 rounded-lg text-red-600 dark:text-red-400 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-950/30"
             >
               Delete
             </button>
@@ -189,10 +191,14 @@ function Info({
 }) {
   return (
     <div>
-      <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+      <dt className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
         {label}
       </dt>
-      <dd className={`text-slate-800 ${className}`}>{value}</dd>
+      <dd
+        className={`font-medium text-slate-900 dark:text-slate-100 ${className}`}
+      >
+        {value}
+      </dd>
     </div>
   );
 }
@@ -203,9 +209,12 @@ function StatusBadge({
   status: "pending" | "approved" | "rejected";
 }) {
   const map = {
-    pending: "bg-amber-100 text-amber-900 border-amber-300",
-    approved: "bg-emerald-100 text-emerald-900 border-emerald-300",
-    rejected: "bg-red-100 text-red-900 border-red-300",
+    pending:
+      "bg-amber-100 dark:bg-amber-950/50 text-amber-950 dark:text-amber-100 border-amber-300 dark:border-amber-700",
+    approved:
+      "bg-emerald-100 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-100 border-emerald-300 dark:border-emerald-700",
+    rejected:
+      "bg-red-100 dark:bg-red-950/40 text-red-950 dark:text-red-100 border-red-300 dark:border-red-700",
   } as const;
   return (
     <span

@@ -67,6 +67,41 @@ export const HOSA_MINIMUM_HOURS = 4;
 export const OFFICER_MINIMUM_HOURS = 6;
 export const EDIT_WINDOW_HOURS = 24;
 
+/** Allowed durations when logging events: 1 minute, then 5–480 in steps of 5. */
+export const DURATION_MINUTE_CHOICES: readonly number[] = (() => {
+  const out: number[] = [1];
+  for (let m = 5; m <= 8 * 60; m += 5) out.push(m);
+  return out;
+})();
+
+export function snapMinutesToChoice(totalMin: number): number {
+  const clamped = Math.max(1, Math.round(totalMin));
+  let best = DURATION_MINUTE_CHOICES[0];
+  let bestDiff = Infinity;
+  for (const m of DURATION_MINUTE_CHOICES) {
+    const d = Math.abs(m - clamped);
+    if (d < bestDiff) {
+      bestDiff = d;
+      best = m;
+    }
+  }
+  return best;
+}
+
+/** Store as fractional hours in Postgres (numeric). */
+export function minutesToDbHours(minutes: number): number {
+  return Math.round((minutes / 60) * 10000) / 10000;
+}
+
+/** Short label for duration `<select>` options. */
+export function formatDurationChoiceLabel(minutes: number): string {
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const r = minutes % 60;
+  if (r === 0) return `${h} ${h === 1 ? "hr" : "hrs"}`;
+  return `${h}h ${r}m`;
+}
+
 export function canEdit(row: Pick<EventRow, "status" | "created_at">): boolean {
   if (row.status !== "pending") return false;
   const createdAt = new Date(row.created_at).getTime();
@@ -74,9 +109,13 @@ export function canEdit(row: Pick<EventRow, "status" | "created_at">): boolean {
 }
 
 export function formatHours(hours: number): string {
-  if (hours < 1) return `${Math.round(hours * 60)} min`;
-  if (Number.isInteger(hours)) return `${hours} ${hours === 1 ? "hr" : "hrs"}`;
-  return `${hours} hrs`;
+  const mins = Math.round(hours * 60);
+  if (mins <= 0) return "0 min";
+  if (mins < 60) return `${mins} min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (m === 0) return `${h} ${h === 1 ? "hr" : "hrs"}`;
+  return `${h} hr ${m} min`;
 }
 
 export function formatDate(iso: string): string {

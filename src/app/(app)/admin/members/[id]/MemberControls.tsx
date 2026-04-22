@@ -35,10 +35,12 @@ export function MemberControls({ profile }: { profile: Profile }) {
 
   return (
     <div className="tracker-card p-4 sm:p-5">
-      <h2 className="font-semibold text-slate-800 mb-3">Member details</h2>
+      <h2 className="font-semibold text-slate-800 dark:text-slate-100 mb-3">
+        Member details
+      </h2>
       <div className="grid sm:grid-cols-5 gap-3">
         <label className="block sm:col-span-2">
-          <span className="block text-xs font-medium text-slate-600 mb-1">
+          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
             Full name
           </span>
           <input
@@ -48,7 +50,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           />
         </label>
         <label className="block">
-          <span className="block text-xs font-medium text-slate-600 mb-1">
+          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
             Grade
           </span>
           <select
@@ -64,7 +66,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           </select>
         </label>
         <label className="block">
-          <span className="block text-xs font-medium text-slate-600 mb-1">
+          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
             Role
           </span>
           <select
@@ -77,7 +79,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
           </select>
         </label>
         <label className="block">
-          <span className="block text-xs font-medium text-slate-600 mb-1">
+          <span className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
             Year
           </span>
           <input
@@ -89,7 +91,7 @@ export function MemberControls({ profile }: { profile: Profile }) {
         </label>
       </div>
       <div className="mt-3 flex items-center justify-between flex-wrap gap-3">
-        <label className="inline-flex items-center gap-2 text-sm">
+        <label className="inline-flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
           <input
             type="checkbox"
             checked={isAdmin}
@@ -99,8 +101,14 @@ export function MemberControls({ profile }: { profile: Profile }) {
           <span>Admin (can approve events, manage members)</span>
         </label>
         <div className="flex items-center gap-3">
-          {error && <span className="text-sm text-red-600">{error}</span>}
-          {saved && <span className="text-sm text-emerald-700">Saved ✓</span>}
+          {error && (
+            <span className="text-sm text-red-600 dark:text-red-400">{error}</span>
+          )}
+          {saved && (
+            <span className="text-sm text-emerald-700 dark:text-emerald-400">
+              Saved ✓
+            </span>
+          )}
           <button
             onClick={save}
             disabled={isPending}

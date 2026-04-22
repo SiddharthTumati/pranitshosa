@@ -25,8 +25,10 @@ export default async function AdminLayout({
   if (!profile?.is_admin) {
     return (
       <div className="max-w-md mx-auto p-6 mt-10 tracker-card">
-        <h2 className="font-bold text-lg">Admin access only</h2>
-        <p className="text-sm text-slate-600 mt-2">
+        <h2 className="font-bold text-lg dark:text-slate-100">
+          Admin access only
+        </h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
           This section is restricted to chapter officers and advisors. If you
           think you should have access, ask the existing admin to add your
           email to the admin list.
@@ -45,12 +47,14 @@ export default async function AdminLayout({
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
       <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-brand-navy">Admin panel</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-brand-navy dark:text-slate-100">
+            Admin panel
+          </h1>
+          <p className="text-sm text-slate-600 dark:text-slate-300">
             Review student submissions and manage the chapter roster.
           </p>
         </div>
-        <nav className="flex gap-1 bg-white rounded-xl p-1 border border-slate-200 shadow-sm">
+        <nav className="flex gap-1 bg-white dark:bg-slate-800/90 rounded-xl p-1 border border-slate-200 dark:border-slate-600 shadow-sm">
           <AdminTab href="/admin" label="Pending" />
           <AdminTab href="/admin/all" label="All events" />
           <AdminTab href="/admin/members" label="Members" />
@@ -65,7 +69,7 @@ function AdminTab({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100"
+      className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
     >
       {label}
     </Link>

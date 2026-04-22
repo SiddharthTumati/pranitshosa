@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import type { Profile } from "@/lib/types";
+import { formatHours, type Profile } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +42,7 @@ export default async function MembersPage() {
     <div className="tracker-card overflow-hidden">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-slate-50 text-slate-700 text-left text-xs uppercase tracking-wider">
+          <tr className="bg-slate-50 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 text-left text-xs uppercase tracking-wider">
             <th className="px-4 py-3 font-semibold">Name</th>
             <th className="px-4 py-3 font-semibold">Grade</th>
             <th className="px-4 py-3 font-semibold">Role</th>
@@ -54,14 +54,20 @@ export default async function MembersPage() {
         <tbody>
           {rows.length === 0 && (
             <tr>
-              <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
+              <td
+                colSpan={6}
+                className="px-4 py-8 text-center text-slate-500 dark:text-slate-400"
+              >
                 No members yet.
               </td>
             </tr>
           )}
           {rows.map((p) => (
-            <tr key={p.id} className="border-t border-slate-100">
-              <td className="px-4 py-3 font-medium text-slate-900">
+            <tr
+              key={p.id}
+              className="border-t border-slate-100 dark:border-slate-700"
+            >
+              <td className="px-4 py-3 font-medium text-slate-900 dark:text-slate-100">
                 {p.full_name || "(no name)"}
                 {p.is_admin && (
                   <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded bg-brand-navy text-white text-[10px] font-bold uppercase">
@@ -69,16 +75,22 @@ export default async function MembersPage() {
                   </span>
                 )}
               </td>
-              <td className="px-4 py-3 text-slate-700">{p.grade ?? "—"}</td>
-              <td className="px-4 py-3 text-slate-700 capitalize">{p.role}</td>
-              <td className="px-4 py-3 text-slate-700">
-                {p.approved_hours.toFixed(2).replace(/\.00$/, "")}
+              <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+                {p.grade ?? "—"}
               </td>
-              <td className="px-4 py-3 text-slate-700">{p.total_events}</td>
+              <td className="px-4 py-3 text-slate-700 dark:text-slate-300 capitalize">
+                {p.role}
+              </td>
+              <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+                {formatHours(p.approved_hours)}
+              </td>
+              <td className="px-4 py-3 text-slate-700 dark:text-slate-300">
+                {p.total_events}
+              </td>
               <td className="px-4 py-3 text-right">
                 <Link
                   href={`/admin/members/${p.id}`}
-                  className="text-sm font-semibold text-brand-navy hover:underline"
+                  className="text-sm font-semibold text-brand-navy dark:text-brand-orange hover:underline"
                 >
                   View →
                 </Link>

@@ -147,7 +147,7 @@ export function Tracker({
 
         {/* Stat row */}
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatCard label="Total Hours" value={formatNum(totalHours)} />
+          <StatCard label="Total Hours" value={formatHours(totalHours)} />
           <StatCard label="Events Participated In" value={String(eventCount)} />
           <StatCard
             label="Meets HOSA Requirements?"
@@ -384,7 +384,7 @@ function SemesterCard({
         {title}
       </p>
       <p className="mt-1 text-3xl font-bold text-brand-navy dark:text-white">
-        ~{formatNum(hours)} hrs
+        {formatHours(hours)}
       </p>
       <div className="mt-2.5 flex flex-wrap gap-2">
         <Pill tone={memberMet ? "emerald" : "orange"}>
@@ -412,9 +412,4 @@ function ordinal(n: number): string {
   const s = ["th", "st", "nd", "rd"];
   const v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
-
-function formatNum(n: number): string {
-  if (Number.isInteger(n)) return String(n);
-  return n.toFixed(1);
 }

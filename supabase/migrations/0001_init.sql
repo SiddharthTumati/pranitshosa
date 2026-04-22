@@ -39,7 +39,7 @@ create table if not exists public.events (
   name text not null,
   event_date date not null,
   semester text not null check (semester in ('fall', 'spring')),
-  hours numeric(5,2) not null check (hours > 0),
+  hours numeric(10, 4) not null check (hours > 0),
   category text not null check (category in (
     'Blood Drive', 'Speaker', 'Community', 'Social', 'Health Ed.', 'Other'
   )),
