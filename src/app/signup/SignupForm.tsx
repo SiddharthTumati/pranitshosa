@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { formatSignupError, normalizeSignupEmail } from "@/lib/signupErrors";
 
 export function SignupForm() {
   const router = useRouter();
@@ -19,9 +21,17 @@ export function SignupForm() {
     setError(null);
     setLoading(true);
 
+    const normalizedEmail = normalizeSignupEmail(email);
+    if (!normalizedEmail.includes("@")) {
+      setError("Enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
     const supabase = createClient();
+
     const { data, error } = await supabase.auth.signUp({
-      email,
+      email: normalizedEmail,
       password,
       options: {
         data: { full_name: fullName },
@@ -29,7 +39,7 @@ export function SignupForm() {
     });
 
     if (error) {
-      setError(error.message);
+      setError(formatSignupError(error.message));
       setLoading(false);
       return;
     }
@@ -56,8 +66,8 @@ export function SignupForm() {
       <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-100 px-4 py-3 text-sm">
         <p className="font-semibold">Check your email.</p>
         <p className="mt-1">
-          Confirmation link went to <strong>{email}</strong>. Open it, then
-          sign in here.
+          Confirmation link went to <strong>{normalizeSignupEmail(email)}</strong>
+          . Open it, then sign in here.
         </p>
       </div>
     );
@@ -117,20 +127,30 @@ export function SignupForm() {
         <input
           type="password"
           required
-          minLength={6}
+          minLength={8}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 dark:text-slate-100 px-3 py-2.5 text-sm shadow-sm focus:border-brand-navy dark:focus:border-brand-orange focus:ring-0"
           autoComplete="new-password"
         />
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-          Minimum 6 characters.
+          Minimum 8 characters.
         </p>
       </div>
 
       {error && (
-        <div className="rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-3 py-2 text-sm">
-          {error}
+        <div className="rounded-lg bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-3 py-2 text-sm space-y-2">
+          <p>{error}</p>
+          {/already have an account/i.test(error) && (
+            <p>
+              <Link
+                href="/login"
+                className="font-semibold text-brand-navy dark:text-brand-orange underline"
+              >
+                Go to sign in
+              </Link>
+            </p>
+          )}
         </div>
       )}
 

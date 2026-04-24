@@ -21,8 +21,10 @@ royal blue and orange.
 - **Students cannot delete** events — only admins can
 - Admin panel with approval queue, all-events view, member roster, and
   per-member tracker view
-- **Admins are auto-designated** on sign-up if their email is in the
-  `admin_emails` table — simple and chapter-controllable
+- **Admins are auto-designated** when their **verified** email matches
+  `admin_emails` (see migration `0005_signup_security.sql` — stops unverified
+  accounts from claiming officer emails). Optional **school-domain allowlist**
+  blocks random personal inboxes from registering at all.
 - Print-optimized export page that saves directly as a clean PDF via the
   browser's native Print → Save as PDF dialog
 
@@ -40,6 +42,20 @@ royal blue and orange.
    but get stuck on **“Setting up your profile…”**, also run
    [`supabase/migrations/0002_profile_bootstrap.sql`](supabase/migrations/0002_profile_bootstrap.sql)
    once in the SQL editor.
+
+   Run [`supabase/migrations/0005_signup_security.sql`](supabase/migrations/0005_signup_security.sql)
+   for signup hardening: **admin only after the auth email is confirmed**, and
+   an optional **allowed email domain** table (empty table = no domain
+   restriction, same as before).
+
+   To restrict signups to school addresses only, insert domains **without** `@`:
+
+   ```sql
+   insert into public.signup_allowed_domains (domain) values
+     ('yourdistrict.k12.nc.us'),
+     ('students.yourschool.org');
+   ```
+
 3. Still in the SQL editor, add your officer emails to the admin list:
 
    ```sql
@@ -48,13 +64,17 @@ royal blue and orange.
      ('advisor@school.edu');
    ```
 
-   Any user who signs up with one of those emails is auto-flagged as admin.
+   After `0005`, admin is applied only once that address is **confirmed** in
+   Supabase Auth (so someone cannot squat `advisor@…` with an unverified
+   account). With **Confirm email** off, addresses are treated as confirmed
+   immediately (fine for local dev; for production, turn confirmation **on**).
+
    You can also flip an existing user to admin from
    **/admin/members/[id]** once you have one admin set up.
 
-4. Go to **Authentication → Providers → Email**. For convenience during
-   your chapter rollout, turn **"Confirm email"** off. (Optional — if you
-   leave it on, students must click a confirmation link before signing in.)
+4. Go to **Authentication → Providers → Email**. For **production**, turn
+   **Confirm email** **on** so only real inboxes can complete signup and claim
+   `admin_emails` matches. For quick local testing you may leave it off.
 
 5. Project Settings → API. Copy the **Project URL** and the **anon public**
    key — you'll need them next.
