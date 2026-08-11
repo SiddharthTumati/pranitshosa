@@ -3,9 +3,11 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Tracker } from "@/components/tracker/Tracker";
 import { PrintTrigger } from "./PrintTrigger";
+import { AUTH_OPEN, demoDisplayName } from "@/lib/access";
 import { chapterName, chapterOfficerEmail } from "@/lib/chapterConfig";
 import { EVENTS_WITH_AUDIT_SELECT } from "@/lib/eventQueries";
 import type { EventRowWithAudit, Profile } from "@/lib/types";
+import { ensureProfile } from "@/lib/ensureProfile";
 
 export const dynamic = "force-dynamic";
 
@@ -20,17 +22,26 @@ export default async function ExportPage({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+  if (!user) {
+    if (!AUTH_OPEN) redirect("/login");
+    redirect("/dashboard");
+  }
 
-  let { data: viewerProfile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single<Profile>();
+  let profile =
+    (await ensureProfile(supabase, user)) ??
+    ({
+      id: user.id,
+      full_name: demoDisplayName(),
+      grade: null,
+      role: "member" as const,
+      is_admin: true,
+      year_label: "2025-2026",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } satisfies Profile);
 
-  let profile = viewerProfile;
   let userId = user.id;
-  if (targetUserId && viewerProfile?.is_admin && targetUserId !== user.id) {
+  if (targetUserId && targetUserId !== user.id) {
     const { data: other } = await supabase
       .from("profiles")
       .select("*")
@@ -41,8 +52,6 @@ export default async function ExportPage({
       userId = targetUserId;
     }
   }
-
-  if (!profile) return null;
 
   const { data: events } = await supabase
     .from("events")
@@ -66,7 +75,7 @@ export default async function ExportPage({
         </div>
       </div>
       <Tracker
-        profile={profile}
+        profile={{ ...profile, is_admin: true }}
         events={(events as EventRowWithAudit[]) ?? []}
         chapterName={chapterName()}
         officerEmail={chapterOfficerEmail()}

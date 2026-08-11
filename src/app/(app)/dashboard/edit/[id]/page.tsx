@@ -19,7 +19,9 @@ export default async function EditEventPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/login");
+  if (!user) {
+    redirect("/dashboard");
+  }
 
   const { data: evt } = await supabase
     .from("events")

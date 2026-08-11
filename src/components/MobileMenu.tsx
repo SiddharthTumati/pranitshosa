@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { signOutAction } from "@/app/actions/auth";
 
 export function MobileMenu({
   isAdmin,
@@ -99,18 +98,6 @@ export function MobileMenu({
                 </>
               )}
             </nav>
-
-            <form
-              action={signOutAction}
-              className="p-3 border-t border-slate-200 dark:border-slate-700"
-            >
-              <button
-                type="submit"
-                className="w-full px-4 py-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm hover:bg-slate-200 dark:hover:bg-slate-700"
-              >
-                Sign out
-              </button>
-            </form>
           </div>
         </div>
       )}

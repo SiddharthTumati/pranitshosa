@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
-import { signOutAction } from "@/app/actions/auth";
 import { MobileMenu } from "./MobileMenu";
 import { ThemeToggle } from "./theme/ThemeToggle";
 
@@ -18,6 +17,8 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
   const linkBase =
     "text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-brand-navy dark:hover:text-white";
   const linkActive = "underline underline-offset-4 decoration-2";
+  // Open access: every visitor gets full admin navigation
+  const showAdmin = isAdmin;
 
   return (
     <header className="no-print bg-[var(--surface-0)] border-b border-[var(--border-2)] sticky top-0 z-20">
@@ -36,7 +37,6 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
           </div>
         </Link>
 
-        {/* Desktop nav — every main section is one click away */}
         <nav className="hidden md:flex items-center gap-4">
           <Link
             href="/dashboard"
@@ -62,7 +62,7 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
           >
             Export
           </Link>
-          {isAdmin && (
+          {showAdmin && (
             <>
               <Link
                 href="/admin"
@@ -90,21 +90,15 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
               </Link>
             </>
           )}
-          <ThemeToggle
-            className="shrink-0"
-          />
-          <form action={signOutAction} className="contents">
-            <button
-              type="submit"
-              className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--color-brand-ink)] dark:hover:text-white underline-offset-4 hover:underline"
-              title={fullName}
-            >
-              Sign out
-            </button>
-          </form>
+          <ThemeToggle className="shrink-0" />
+          <span
+            className="text-sm text-[color:var(--muted)] max-w-[10rem] truncate"
+            title={fullName}
+          >
+            {fullName}
+          </span>
         </nav>
 
-        {/* Mobile nav */}
         <div className="md:hidden flex items-center gap-2">
           <ThemeToggle className="shrink-0" />
           <Link
@@ -114,7 +108,7 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
           >
             Add
           </Link>
-          <MobileMenu isAdmin={isAdmin} fullName={fullName} />
+          <MobileMenu isAdmin={showAdmin} fullName={fullName} />
         </div>
       </div>
     </header>

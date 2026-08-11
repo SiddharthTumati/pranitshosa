@@ -1,22 +1,6 @@
-import { Suspense } from "react";
-import { MrhsAuthShell } from "@/components/auth/MrhsAuthShell";
-import { chapterLoginDescription } from "@/lib/chapterConfig";
-import { LoginForm } from "./LoginForm";
+import { redirect } from "next/navigation";
 
+/** Sign-in removed — go straight to the dashboard. */
 export default function LoginPage() {
-  return (
-    <MrhsAuthShell
-      title="Sign in"
-      description={chapterLoginDescription()}
-    >
-      <Suspense fallback={<div className="h-64" />}>
-        <LoginForm />
-      </Suspense>
-
-      <p className="text-sm text-slate-600 dark:text-slate-400 mt-6 text-center">
-        Need an account? Ask a chapter officer or advisor to create one for
-        you.
-      </p>
-    </MrhsAuthShell>
-  );
+  redirect("/dashboard");
 }
