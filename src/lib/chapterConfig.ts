@@ -28,7 +28,7 @@ export function chapterProductTagline(): string {
   );
 }
 
-/** Trust / audit bullets shown on sign-in and sign-up. */
+/** Trust / audit bullets shown on sign-in. */
 export function chapterTrustBullets(): readonly string[] {
   const raw = process.env.NEXT_PUBLIC_TRUST_BULLETS?.trim();
   if (raw) {
@@ -55,13 +55,6 @@ export function chapterLoginDescription(): string {
   return (
     process.env.NEXT_PUBLIC_LOGIN_DESCRIPTION?.trim() ||
     "Sign in to log events, see approval status and timestamps on each submission, and export to PDF when you need a packet."
-  );
-}
-
-export function chapterSignupDescription(): string {
-  return (
-    process.env.NEXT_PUBLIC_SIGNUP_DESCRIPTION?.trim() ||
-    "School email is fine. Officers approve hours (and optional photos) before they count. Rejection reasons are shown to you."
   );
 }
 

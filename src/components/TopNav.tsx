@@ -36,7 +36,7 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
           </div>
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav — every main section is one click away */}
         <nav className="hidden md:flex items-center gap-4">
           <Link
             href="/dashboard"
@@ -52,17 +52,43 @@ export function TopNav({ chapterName, fullName, isAdmin }: Props) {
               pathname?.startsWith("/dashboard/add") ? linkActive : ""
             }`}
           >
-            Add
+            Add event
+          </Link>
+          <Link
+            href="/export"
+            className={`${linkBase} ${
+              pathname?.startsWith("/export") ? linkActive : ""
+            }`}
+          >
+            Export
           </Link>
           {isAdmin && (
-            <Link
-              href="/admin"
-              className={`${linkBase} ${
-                pathname?.startsWith("/admin") ? linkActive : ""
-              }`}
-            >
-              Admin
-            </Link>
+            <>
+              <Link
+                href="/admin"
+                className={`${linkBase} ${
+                  pathname === "/admin" ? linkActive : ""
+                }`}
+              >
+                Pending
+              </Link>
+              <Link
+                href="/admin/all"
+                className={`${linkBase} ${
+                  pathname?.startsWith("/admin/all") ? linkActive : ""
+                }`}
+              >
+                All events
+              </Link>
+              <Link
+                href="/admin/members"
+                className={`${linkBase} ${
+                  pathname?.startsWith("/admin/members") ? linkActive : ""
+                }`}
+              >
+                Members
+              </Link>
+            </>
           )}
           <ThemeToggle
             className="shrink-0"

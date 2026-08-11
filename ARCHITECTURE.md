@@ -41,7 +41,7 @@ Scripts: `dev`, `build`, `start`, `lint`.
 | Path | Description |
 |------|-------------|
 | `/` | Redirect: signed in → `/dashboard`, else → `/login` — [src/app/page.tsx](./src/app/page.tsx) |
-| `/login`, `/signup` | Email/password — [MrhsAuthShell](./src/components/auth/MrhsAuthShell.tsx), [chapterConfig](./src/lib/chapterConfig.ts) |
+| `/login` | Email/password sign-in — [MrhsAuthShell](./src/components/auth/MrhsAuthShell.tsx), [chapterConfig](./src/lib/chapterConfig.ts) |
 | `/dashboard` | Student tracker — [dashboard/page.tsx](./src/app/(app)/dashboard/page.tsx) |
 | `/dashboard/add` | New event — [AddEventForm](./src/app/(app)/dashboard/add/AddEventForm.tsx), [EventFormPageShell](./src/components/forms/EventFormPageShell.tsx) |
 | `/dashboard/edit/[id]` | Edit own event if allowed — [canEdit](./src/lib/types.ts) in [types](./src/lib/types.ts) |
@@ -60,8 +60,8 @@ Scripts: `dev`, `build`, `start`, `lint`.
 [src/lib/supabase/middleware.ts](./src/lib/supabase/middleware.ts) — `updateSession`:
 
 1. Supabase server client from **cookies**, `getUser()`.
-2. No user + not a public route (`/`, `/login`, `/signup`) → redirect ** `/login`** with `next=`.
-3. User on `/login` or `/signup` → redirect **`/dashboard`**.
+2. No user + not a public route (`/`, `/login`) → redirect to **`/login`** with `next=`.
+3. User on `/login` → redirect **`/dashboard`**.
 
 [src/proxy.ts](./src/proxy.ts) invokes `updateSession` (Next.js proxy integration).
 
@@ -95,7 +95,6 @@ Only the **anon** key is used in the app; **RLS** applies. No **service role** i
 | [src/lib/chapterConfig.ts](./src/lib/chapterConfig.ts) | Chapter copy & env overrides |
 | [src/lib/mrhsBranding.ts](./src/lib/mrhsBranding.ts) | Chapter name parsing |
 | [src/lib/eventQueries.ts](./src/lib/eventQueries.ts) | PostgREST select with approver join |
-| [src/lib/signupErrors.ts](./src/lib/signupErrors.ts) | Signup email / error helpers |
 | [src/lib/ensureProfile.ts](./src/lib/ensureProfile.ts) | Ensures `profiles` row exists |
 | [src/lib/compressImage.ts](./src/lib/compressImage.ts) | Client image compression before upload |
 

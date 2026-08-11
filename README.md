@@ -10,7 +10,8 @@ royal blue and orange.
 
 ## Features
 
-- Email/password auth (Supabase Auth)
+- Email/password auth (Supabase Auth). **No public sign-up page** — officers/
+  advisors create accounts (e.g. Supabase Auth dashboard).
 - Student dashboard that matches the chapter's official tracker design —
   total hours, event log, semester summary, HOSA vs. officer thresholds,
   goal checklist
@@ -73,8 +74,8 @@ royal blue and orange.
    **/admin/members/[id]** once you have one admin set up.
 
 4. Go to **Authentication → Providers → Email**. For **production**, turn
-   **Confirm email** **on** so only real inboxes can complete signup and claim
-   `admin_emails` matches. For quick local testing you may leave it off.
+   **Confirm email** as needed for your chapter. For quick local testing with
+   accounts you create yourself, you may leave confirmation off.
 
 5. Project Settings → API. Copy the **Project URL** and the **anon public**
    key — you'll need them next.
@@ -92,8 +93,10 @@ npm run dev
 
 Visit <http://localhost:3000>.
 
-1. Sign up with an email in your `admin_emails` list → you become admin.
-2. Sign up with any other email → that user is a regular student.
+1. Create a user in **Supabase → Authentication → Users** (or invite them).
+2. If their email is in `admin_emails`, they get admin after confirmation
+   rules / migration `0005` apply. You can also set `profiles.is_admin`
+   from **/admin/members/[id]** once you have one admin.
 
 ### 3. Deploy
 
@@ -109,7 +112,7 @@ src/
     layout.tsx                    # Root layout, Inter font
     page.tsx                      # Redirects → /dashboard or /login
     globals.css                   # Tailwind v4 theme + print styles
-    login/ signup/                # Public auth pages
+    login/                        # Public sign-in (no public sign-up page)
     (app)/                        # Authenticated routes
       layout.tsx                  # Top nav, profile lookup
       dashboard/
